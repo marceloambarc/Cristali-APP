@@ -6,12 +6,13 @@ import { styles } from './styles';
 
 interface Props extends RectButtonProps {
   title: string;
+  color: string;
 }
 
-export function CristaliButton({ title, ...rest }: Props){
+export function CristaliButton({ title, color, ...rest }: Props){
   return (
     <RectButton
-      style={styles.container}
+      style={[styles.container, {backgroundColor: color}]}
       { ...rest }
     >
       <Text style={styles.title}>

@@ -4,6 +4,7 @@ export const theme = {
     secondary: '#EBF2F5',
 
     background: '#CEDEE5',
+    body: '#F2F3F5',
 
     Success: '#37C77F',
     SuccessDesactivated: '#A1E9C5',

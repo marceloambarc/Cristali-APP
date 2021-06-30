@@ -3,10 +3,14 @@ import { TextInput, TextInputProps } from "react-native";
 
 import { styles } from './styles';
 
-export function CristaliInput({...rest} : TextInputProps){
+interface Props extends TextInputProps {
+  clientInput?: boolean
+}
+
+export function CristaliInput({ clientInput, ...rest } : Props){
   return (
     <TextInput 
-      style={styles.container}
+      style={[styles.container, clientInput ? styles.extend : styles.desactivated]}
       {...rest}
     />
   );
