@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StatusBar } from 'react-native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
@@ -9,11 +9,21 @@ import { CristaliInput } from '../../components/CristaliInput';
 import { TextArea } from '../../components/TextArea';
 import { InsertPhoto } from '../../components/InsertPhoto';
 import { CristaliButton } from '../../components/CristaliButton';
+import { Header } from '../../components/Header';
 
 export function InsertProduct(){
+  const [code, setCode] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
   const [discription, setDiscription] = useState('');
+  const [image, setImage] = useState('');
+
   return (
     <ScrollView>
+      <StatusBar 
+        backgroundColor={theme.colors.input}
+      />
+      <Header />
       <View style={styles.container}>
         <View style={styles.productArea}>
 
