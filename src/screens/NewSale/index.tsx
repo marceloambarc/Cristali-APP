@@ -23,7 +23,7 @@ export function NewSale(){
   }
 
   function handleInsertNewProduct(){
-    alert('Hello World!');
+    navigation.navigate('InsertProduct');
   }
 
   return (
