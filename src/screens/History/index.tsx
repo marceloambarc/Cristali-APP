@@ -40,6 +40,10 @@ export function History(){
             <Divider />
           </View>
 
+          <View>
+            
+          </View>
+
         </View>
       </View>
     </ScrollView>
