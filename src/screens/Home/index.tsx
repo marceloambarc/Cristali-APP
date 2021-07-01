@@ -8,9 +8,23 @@ import { CristaliButton } from '../../components/CristaliButton';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
+import { user } from '../../utils/user';
 
-export function Home(){
+interface User {
+  id: number;
+  name: string;
+}
+
+export function Home({}: User){
   const navigation = useNavigation();
+
+  function handleHistoryNavigation(){
+    navigation.navigate('History')
+  }
+
+  function handleOldSaleNavigation(){
+    alert('Hello World!');
+  }
 
   function handleNewSaleNavigation(){
     navigation.navigate('NewSale');
@@ -26,16 +40,24 @@ export function Home(){
         <Logo />
 
         <View style={styles.banner}>
-          <Text style={styles.username}>Heloísa</Text>
+          <Text style={styles.username}>{ user.name }</Text>
           <Text style={styles.title}>CRISTALI</Text>
         </View>
 
         <View style={styles.painel}>
           <View style={styles.painelButton}>
-            <CristaliButton color={`${theme.colors.Config}`} title="Histórico" />
+            <CristaliButton 
+              color={`${theme.colors.Config}`} 
+              title="Histórico"
+              onPress={handleHistoryNavigation}
+            />
           </View>
           <View style={styles.painelButton}>
-            <CristaliButton color={`${theme.colors.Continue}`} title="Carregar Venda" />
+            <CristaliButton 
+              color={`${theme.colors.Continue}`} 
+              title="Carregar Venda"
+              onPress={handleOldSaleNavigation}
+            />
           </View>
           <View style={styles.painelButton}>
             <CristaliButton
