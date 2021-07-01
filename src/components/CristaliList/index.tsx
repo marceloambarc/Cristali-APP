@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 import { Order, OrderProps } from "../Order";
-
-import { styles } from "./styles";
-import { user } from '../../utils/user';
 
 interface Props {
   handleOrderSelect: (order : OrderProps) => void;
@@ -58,6 +55,8 @@ export function CristaliList({ handleOrderSelect } : Props){
             onPress={() => handleOrderSelect(item)}
           />
         )}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 68, paddingTop: 10 }}
       />
   );
 }

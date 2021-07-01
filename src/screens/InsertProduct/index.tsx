@@ -21,10 +21,14 @@ export function InsertProduct(){
   return (
     <ScrollView>
       <StatusBar
+        barStyle='dark-content'
         backgroundColor={theme.colors.input}
-        
       />
-      <Header />
+      <Header
+        title='Adicionar novo Produto'
+        haveBack
+        haveClose
+      />
       <View style={styles.container}>
         <View style={styles.productArea}>
 
@@ -42,7 +46,9 @@ export function InsertProduct(){
                   Código
                 </Text>
               </View>
-              <CristaliInput />
+              <CristaliInput
+                onChangeText={setCode}
+              />
             </View>
 
             <View style={styles.productInput}>
@@ -51,7 +57,9 @@ export function InsertProduct(){
                   Quantidade
                 </Text>
               </View>
-              <CristaliInput />
+              <CristaliInput 
+                onChangeText={setQuantity}
+              />
             </View>
 
             <View style={styles.productInput}>
@@ -60,7 +68,9 @@ export function InsertProduct(){
                   Preço
                 </Text>
               </View>
-              <CristaliInput />
+              <CristaliInput 
+                onChangeText={setPrice}
+              />
             </View>
 
             <View style={styles.productInput}>

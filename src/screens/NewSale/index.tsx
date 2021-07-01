@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { styles } from "./styles";
@@ -9,6 +9,7 @@ import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
 import { TextArea } from "../../components/TextArea";
 import { CristaliButton } from "../../components/CristaliButton";
+import { Header } from "../../components/Header";
 
 export function NewSale(){
   const [name, setName] = useState('');
@@ -28,6 +29,15 @@ export function NewSale(){
 
   return (
     <ScrollView>
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor={theme.colors.input}
+      />
+      <Header
+        title='Adicionar novo Produto'
+        haveBack
+        haveClose
+      />
       <View style={styles.container}>
         <View style={styles.clientArea}>
 
@@ -154,13 +164,6 @@ export function NewSale(){
           <Divider />
 
           <View style={styles.footer}>
-            <View style={styles.footerContainer}>
-              <CristaliButton 
-                title="Voltar"
-                color={`${theme.colors.Config}`}
-                onPress={handleGoBack}
-              />
-            </View>
             <View style={styles.footerContainer}>
               <CristaliButton 
                 title="Continuar"

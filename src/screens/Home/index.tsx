@@ -19,11 +19,11 @@ export function Home({}: User){
   const navigation = useNavigation();
 
   function handleHistoryNavigation(){
-    navigation.navigate('History')
+    navigation.navigate('History');
   }
 
-  function handleOldSaleNavigation(){
-    alert('Hello World!');
+  function handleSavedSaleNavigation(){
+    navigation.navigate('SavedSale');
   }
 
   function handleNewSaleNavigation(){
@@ -56,7 +56,7 @@ export function Home({}: User){
             <CristaliButton 
               color={`${theme.colors.Continue}`} 
               title="Carregar Venda"
-              onPress={handleOldSaleNavigation}
+              onPress={handleSavedSaleNavigation}
             />
           </View>
           <View style={styles.painelButton}>
