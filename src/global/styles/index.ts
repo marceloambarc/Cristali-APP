@@ -18,6 +18,8 @@ export const theme = {
 
     unactivatedList: '#DADADA',
     unactivatedListBorder: '#4D6F80',
+    activatedList: '#A5F1CB',
+    activatedListBorder: '6EBD75',
 
     input: '#FFFFFF',
     inputDesactivatedBorder: '#D3E2E5',

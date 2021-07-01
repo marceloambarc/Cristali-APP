@@ -22,7 +22,6 @@ export function SignIn(){
       <View style={styles.container}>
 
         <StatusBar
-          barStyle='light-content'
           backgroundColor={theme.colors.primary}
           translucent={true}
         />

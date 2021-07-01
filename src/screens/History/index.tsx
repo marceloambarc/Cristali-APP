@@ -6,11 +6,15 @@ import { theme } from "../../global/styles";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
+import { CristaliList } from "../../components/CristaliList";
+import { OrderProps } from "../../components/Order";
 
 export function History(){
+  function handleOrderSelect(orderSelect: OrderProps){
+    alert('Hello World!');
+  }
 
   return (
-    <ScrollView>
       <View style={styles.container}>
         <View style={styles.historyArea}>
 
@@ -41,11 +45,12 @@ export function History(){
           </View>
 
           <View>
-            
+            <CristaliList
+              handleOrderSelect={handleOrderSelect}
+            />
           </View>
 
         </View>
       </View>
-    </ScrollView>
   );
 }

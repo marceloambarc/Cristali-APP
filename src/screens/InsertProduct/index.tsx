@@ -20,8 +20,9 @@ export function InsertProduct(){
 
   return (
     <ScrollView>
-      <StatusBar 
+      <StatusBar
         backgroundColor={theme.colors.input}
+        
       />
       <Header />
       <View style={styles.container}>
