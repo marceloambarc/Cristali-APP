@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,7 +7,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 24,
     flatlist: {
-      paddingVertical: 10
+      paddingVertical: 7
     }
   },
   text: {

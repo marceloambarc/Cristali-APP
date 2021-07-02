@@ -57,7 +57,7 @@ export function CristaliList({ handleOrderSelect } : Props){
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 68, paddingTop: 20 }}
+        contentContainerStyle={{ paddingBottom: 40, paddingTop: 20 }}
       />
   );
 }

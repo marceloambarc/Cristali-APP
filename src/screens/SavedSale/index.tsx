@@ -26,26 +26,34 @@ export function SavedSale(){
   }
 
   return (
+    <>
+    <StatusBar
+      barStyle='dark-content'
+      backgroundColor={theme.colors.input}
+    />
+    <Header
+      title='Vendas Abertas'
+      haveClose
+    />
     <View style={styles.container}>
-      <StatusBar
-        barStyle='dark-content'
-        backgroundColor={theme.colors.input}
-      />
-      <Header
-        title='Vendas Abertas'
-        haveClose
-      />
+
 
       <View style={styles.searchContainer}>
-        <Text>Número da Venda</Text>
-        <CristaliInput 
-          onChangeText={setSearchNumber}
-        />
-        <CristaliButton 
-          title='Carregar'
-          color={`${theme.colors.Config}`}
-          onPress={handleLoadSale}
-        />
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Número da Venda</Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <CristaliInput 
+            onChangeText={setSearchNumber}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <CristaliButton 
+            title='Carregar'
+            color={`${theme.colors.Continue}`}
+            onPress={handleLoadSale}
+          />
+        </View>
       </View>
 
       <Divider />
@@ -54,5 +62,6 @@ export function SavedSale(){
         handleOrderSelect={handleOrderSelect}
       />
     </View>
+    </>
   );
 }

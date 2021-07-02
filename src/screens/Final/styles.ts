@@ -6,40 +6,23 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.input,
     paddingTop: 70
   },
   banner: {
     justifyContent: 'center',
     alignItems: 'center',
-    lineHeight: 10,
-    marginTop: 40,
-    marginBottom: 50
-  },
-  username: {
-    fontFamily: theme.fonts.logo,
-    color: theme.colors.input,
-    fontSize: 24,
-  },
-  title: {
-    fontFamily: theme.fonts.logo,
-    color: theme.colors.input,
-    fontSize: 64,
-    lineHeight: 70
-  },
-  painel: {
-    paddingHorizontal: 24,
     marginBottom: 70
   },
-  painelButton: {
-    width: '100%',
-    paddingVertical: 10,
+  title: {
+    fontFamily: theme.fonts.text,
+    color: theme.colors.Success,
+    fontSize: 24,
+    lineHeight: 70
   },
   footer: {
     paddingHorizontal: 24,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 160
   },
-  footerRow: {
-    width: '50%',
-    justifyContent: 'flex-start'
-  }
 });

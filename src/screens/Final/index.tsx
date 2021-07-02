@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Background } from '../../components/Background';
 import { Logo } from '../../components/Logo';
 import { CristaliButton } from '../../components/CristaliButton';
 
@@ -17,13 +16,11 @@ export function Final(){
   }
 
   return (
-    <Background>
       <View style={styles.container}>
         <Logo />
 
         <View style={styles.banner}>
-          <Text style={styles.username}>Venda Concluída</Text>
-          <Text style={styles.title}>CRISTALI</Text>
+          <Text style={styles.title}>Venda Concluída</Text>
         </View>
 
         <View style={styles.footer}>
@@ -35,6 +32,5 @@ export function Final(){
         </View>
        
       </View>
-    </Background>
   );
 }

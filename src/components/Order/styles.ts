@@ -4,14 +4,14 @@ import { theme } from "../../global/styles";
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 72,
+    height: 82,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
     paddingLeft: 6,
     paddingRight: 18,
     
-    marginVertical: 10
+    marginVertical: 7
   },
   content: {
     flex: 1,
