@@ -9,7 +9,7 @@ export function OrderIcon(){
   return (
     <View style={styles.container}>
         <Image 
-          source={require("../../../assets/cristali.png")} 
+          source={require("../../assets/cristali.png")} 
           style={styles.image}
           resizeMode="cover"
         />

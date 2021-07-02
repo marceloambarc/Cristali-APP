@@ -18,7 +18,7 @@ export function SavedSale(){
   const navigation = useNavigation();
 
   function handleOrderSelect(orderSelect: OrderProps){
-    alert('Hello World!');
+    setSearchNumber(orderSelect.number);
   }
 
   function handleLoadSale(){
@@ -44,7 +44,9 @@ export function SavedSale(){
         </View>
         <View style={styles.inputContainer}>
           <CristaliInput 
-            onChangeText={setSearchNumber}
+            value={searchNumber}
+            textAlign='center'
+            editable={false}
           />
         </View>
         <View style={styles.buttonContainer}>

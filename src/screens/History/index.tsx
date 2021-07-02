@@ -19,6 +19,10 @@ export function History(){
     alert('Hello World!');
   }
 
+  function handleViewCalendar(){
+    alert('Calendar');
+  }
+
   return (
     <>
       <StatusBar
@@ -35,7 +39,10 @@ export function History(){
 
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Filtro</Text>
-            <TouchableOpacity style={styles.calendar}>
+            <TouchableOpacity 
+              style={styles.calendar}
+              onPress={handleViewCalendar}
+            >
               <FontAwesome5 name="calendar-alt" size={52} color="black" />
             </TouchableOpacity>
             

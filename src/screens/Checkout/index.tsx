@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,10 +12,55 @@ import { CristaliInput } from '../../components/CristaliInput';
 import { CheckoutButton } from '../../components/CheckoutButton';
 
 export function Checkout(){
+  const [creditPressed, setCreditPressed] = useState(false);
+  const [debitPressed, setDebitPressed] = useState(false);
+  const [pixPressed, setPixPressed] = useState(false);
+  const [moneyPressed, setMoneyPressed] = useState(false);
+
   const navigation = useNavigation()
 
   function handlePagSeguroNavigate(){
     navigation.navigate('PagSeguro');
+  }
+
+  async function handleCreditPressed(){
+    setCreditPressed(true);
+    setDebitPressed(false);
+    setPixPressed(false);
+    setMoneyPressed(false);
+    if(creditPressed === true){
+      setCreditPressed(false);
+    }
+  }
+
+  async function handleDebitPressed(){
+    setDebitPressed(true);
+    setCreditPressed(false);
+    setPixPressed(false);
+    setMoneyPressed(false);
+    if(debitPressed === true){
+      setDebitPressed(false);
+    }
+  }
+
+  async function handlePixPressed(){
+    setPixPressed(true);
+    setDebitPressed(false);
+    setCreditPressed(false);
+    setMoneyPressed(false);
+    if(pixPressed === true){
+      setPixPressed(false);
+    }
+  }
+
+  async function handleMoneyPressed(){
+    setMoneyPressed(true);
+    setPixPressed(false);
+    setDebitPressed(false);
+    setCreditPressed(false);
+    if(moneyPressed === true){
+      setMoneyPressed(false);
+    }
   }
 
   return (
@@ -32,7 +77,9 @@ export function Checkout(){
 
         <View style={styles.titleContainer}>
           <Text style={[styles.title, {fontSize: 18}]}>Total Pedido</Text>
-          <CristaliInput />
+          <CristaliInput 
+            textAlign='center'
+          />
         </View>
 
         <Divider />
@@ -50,17 +97,23 @@ export function Checkout(){
         <View style={styles.buttonsContainer}>
           <View style={styles.checkoutButtonRow}>
             <View style={styles.checkoutButtonCol}>
-                <CheckoutButton
-                  bcolor={`${theme.colors.text}`}
-                  tcolor={`${theme.colors.credit}`}
-                  title={`Receber com ${'\n'} Cartão de Crédito`}
-                />
+              <CheckoutButton
+                bcolor={`${theme.colors.text}`}
+                tcolor={`${theme.colors.credit}`}
+                title={`Receber com ${'\n'} Cartão de Crédito`}
+                onPress={handleCreditPressed}
+                path={require('../../assets/credit.png')}
+                pressed={creditPressed}
+              />
             </View >
             <View style={styles.checkoutButtonCol}>
               <CheckoutButton
                 bcolor={`${theme.colors.debitBorder}`}
                 tcolor={`${theme.colors.debit}`}
                 title={`Receber com ${'\n'} Cartão de Débito`}
+                onPress={handleDebitPressed}
+                path={require('../../assets/debit.png')}
+                pressed={debitPressed}
               />
             </View>
           </View>
@@ -70,6 +123,9 @@ export function Checkout(){
                 bcolor={`${theme.colors.text}`}
                 tcolor={`${theme.colors.pix}`}
                 title={`Receber com ${'\n'} PIX`}
+                onPress={handlePixPressed}
+                path={require('../../assets/pix.png')}
+                pressed={pixPressed}
               />
             </View>
             <View style={styles.checkoutButtonCol}>
@@ -77,6 +133,9 @@ export function Checkout(){
                 bcolor={`${theme.colors.Success}`}
                 tcolor={`${theme.colors.Success}`}
                 title="Receber com Dinheiro"
+                onPress={handleMoneyPressed}
+                path={require('../../assets/money.png')}
+                pressed={moneyPressed}
                 />
             </View>
           </View>

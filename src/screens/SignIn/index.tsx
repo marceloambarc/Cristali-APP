@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StatusBar  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,6 +11,9 @@ import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 export function SignIn(){
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigation = useNavigation();
 
   function handleEnterApp(){
@@ -32,11 +35,17 @@ export function SignIn(){
         <View style={styles.credentials}>
           <View style={styles.credentialsRow}>
             <Text style={styles.cristaliInputText}>USUÁRIO</Text>
-            <CristaliInput />
+            <CristaliInput 
+              textAlign='center'
+              onChangeText={setLogin}
+            />
           </View>
           <View style={styles.credentialsRow}>
             <Text style={styles.cristaliInputText}>SENHA</Text>
-            <CristaliInput />
+            <CristaliInput 
+              textAlign='center'
+              onChangeText={setPassword}
+            />
           </View>
         </View>
 

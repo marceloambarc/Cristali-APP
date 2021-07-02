@@ -10,10 +10,14 @@ export const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-around'
   },
+  iconContainer: {
+    width: 70,
+    height: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   icon: {
-    width: 40,
-    height: 40,
-    borderRadius: 16
+    width: '70%',
   },
   title: {
     fontFamily: theme.fonts.heading,

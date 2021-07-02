@@ -8,7 +8,7 @@ export function Logo(){
     <View style={styles.container}>
       <Image 
         style={styles.logo}
-        source={require("../../../assets/cristali.png")} 
+        source={require("../../assets/cristali.png")} 
       />
     </View>
   );

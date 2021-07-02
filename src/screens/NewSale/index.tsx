@@ -147,11 +147,15 @@ export function NewSale(){
           <View style={styles.orderRow}>
             <View style={styles.orderCol}>
               <Text style={styles.orderText}>Peças</Text>
-              <CristaliInput />
+              <CristaliInput 
+                textAlign='center'
+              />
             </View>
             <View style={styles.orderCol}>
               <Text style={styles.orderText}>Preço</Text>
-              <CristaliInput />
+              <CristaliInput 
+                textAlign='center'
+              />
             </View>
           </View>
 
