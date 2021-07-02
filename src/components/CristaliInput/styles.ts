@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     fontFamily: theme.fonts.text,
     fontSize: 13,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
   extend: {
     borderWidth: 1,

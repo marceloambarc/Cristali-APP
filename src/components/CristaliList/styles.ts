@@ -6,9 +6,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 24
+    paddingTop: 24,
+    flatlist: {
+      paddingVertical: 10
+    }
   },
   text: {
     color: 'black'
-  }
+  },
 });

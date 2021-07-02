@@ -1,0 +1,51 @@
+import { StyleSheet } from "react-native";
+import { theme } from "../../global/styles";
+
+export const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 24
+  },
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 24
+  },
+  title: {
+    fontFamily: theme.fonts.heading,
+    color: theme.colors.title
+  },
+  inputContainer: {
+    paddingVertical: 10
+  }, 
+  inputText: {
+    fontFamily: theme.fonts.heading,
+    color: theme.colors.text,
+    marginBottom: 10
+  },
+  banner: {
+    paddingVertical: 24,
+    marginBottom: 40
+  },
+  payment: {
+    marginTop: 20
+  },
+  bodyContainer: {
+    paddingVertical: 24
+  },
+  code: {
+    paddingVertical: 24,
+  },
+  codeRow: {
+    flexDirection: 'row',
+  },
+  codeCol: {
+    width: '50%',
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  footer: {
+    marginTop: 20,
+    marginBottom: 20
+  }
+});

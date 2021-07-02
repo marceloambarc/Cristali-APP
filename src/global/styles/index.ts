@@ -2,6 +2,8 @@ export const theme = {
   colors: {
     primary: '#8FA7B2',
     secondary: '#EBF2F5',
+    close: '#9CB2BB',
+    return: '#2AB5D1',
 
     background: '#CEDEE5',
     body: '#F2F3F5',
@@ -24,7 +26,15 @@ export const theme = {
     input: '#FFFFFF',
     inputDesactivatedBorder: '#D3E2E5',
     inputActivatedBorder: '#A1E9C5',
-    inputTextGreen: '#0089A5'
+    inputTextGreen: '#0089A5',
+
+    gradient1: '#B3DAE2',
+    gradient2: '#FFFFFF',
+
+    pix: '#2EBDAF',
+    credit: '#5C8599',
+    debit: '#666666',
+    debitBorder: '#FFD666',
   },
 
   fonts: {

@@ -27,6 +27,10 @@ export function NewSale(){
     navigation.navigate('InsertProduct');
   }
 
+  function handleContinue(){
+    navigation.navigate('Checkout');
+  }
+
   return (
     <ScrollView>
       <StatusBar
@@ -34,7 +38,7 @@ export function NewSale(){
         backgroundColor={theme.colors.input}
       />
       <Header
-        title='Adicionar novo Produto'
+        title='Nova Venda'
         haveBack
         haveClose
       />
@@ -168,6 +172,7 @@ export function NewSale(){
               <CristaliButton 
                 title="Continuar"
                 color={`${theme.colors.Success}`}
+                onPress={handleContinue}
               />
             </View>
           </View>

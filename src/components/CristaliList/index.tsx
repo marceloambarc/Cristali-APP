@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FlatList } from "react-native";
+import { styles } from "../Background/styles";
 
 import { Order, OrderProps } from "../Order";
 
@@ -56,7 +57,7 @@ export function CristaliList({ handleOrderSelect } : Props){
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 68, paddingTop: 10 }}
+        contentContainerStyle={{ paddingBottom: 68, paddingTop: 20 }}
       />
   );
 }

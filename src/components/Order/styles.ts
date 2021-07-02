@@ -9,7 +9,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     paddingLeft: 6,
-    paddingRight: 18
+    paddingRight: 18,
+    
+    marginVertical: 10
   },
   content: {
     flex: 1,

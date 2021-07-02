@@ -28,14 +28,15 @@ export function History(){
       <Header
         title='Histórico'
         haveClose
+        haveBack
       />
       <View style={styles.container}>
         <View style={styles.historyArea}>
 
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Filtro</Text>
-            <TouchableOpacity>
-              <FontAwesome5 name="calendar-alt" size={24} color="black" />
+            <TouchableOpacity style={styles.calendar}>
+              <FontAwesome5 name="calendar-alt" size={52} color="black" />
             </TouchableOpacity>
             
           </View>
@@ -51,12 +52,16 @@ export function History(){
               <Text style={styles.orderText}>Pedidos</Text>
               <CristaliInput 
                 value={historyCount}
+                editable={false}
+                textAlign='center'
               />
             </View>
             <View style={styles.orderCol}>
               <Text style={styles.orderText}>Total</Text>
               <CristaliInput 
                 value={total}
+                editable={false}
+                textAlign='center'
               />
             </View>
           </View>

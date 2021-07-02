@@ -10,9 +10,23 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headerRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 16
+  },
+  headerCol: {
+    width: '33%',
+  },
+  headerBorder: {
+    paddingHorizontal: 23
   },
   closeSpace: {
-    
+    width: 24
+  },
+  title: {
+    fontFamily: theme.fonts.text,
+    color: theme.colors.text,
+    fontSize: 15
   }
 })
