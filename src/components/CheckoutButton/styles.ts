@@ -1,23 +1,24 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
   container: {
-    width: 160,
+    width: Dimensions.get('window').height * .4,
     height: 160,
     borderRadius: 20,
     borderWidth: 1,
     padding: 10,
-    justifyContent: 'space-around'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   iconContainer: {
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   icon: {
-    width: '70%',
+    width: '100%',
   },
   title: {
     fontFamily: theme.fonts.heading,

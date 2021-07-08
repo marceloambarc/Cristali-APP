@@ -3,12 +3,17 @@ import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 24
+    paddingVertical: 24,
+    width: '100%',
+    height: 100,
+  },
+  pagseguroImage: {
+    width: '70%',
   },
   title: {
     fontFamily: theme.fonts.heading,

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { styles } from './styles';
@@ -13,6 +13,36 @@ import { Banner } from '../../components/Banner';
 
 export function PagSeguroScreen(){
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expirate, setExpirate] = useState('');
+  const [code, setCode] = useState('');
+
+  function Validate(){
+    if(email != '' && email != undefined){
+      if(phone != '' && phone != undefined){
+        if(cardNumber != '' && cardNumber != undefined){
+          if(expirate != '' && expirate != undefined){
+            if(code != '' && code != undefined){
+              handleConcludeSale();
+            }else{
+              alert('Insira do Código de Verificação do Cartão de Crédito');
+            }
+          }else{
+            alert('Insira a Data de Validade do Cartão de Crédito');
+          }
+        }else{
+          alert('Insira o Número do Cartão de Crédito');
+        }
+      }else{
+        alert('Insira o Telefone do Cliente');
+      }
+    }else{
+      alert('Insira o Email do Cliente');
+    }
+  }
 
   function handleConcludeSale(){
     navigation.navigate('Final');
@@ -31,16 +61,26 @@ export function PagSeguroScreen(){
       <View style={styles.container}>
 
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, {fontSize: 30}]}>PagSeguro</Text>
+          <Image 
+            source={require('../../assets/pagseguro.png')}
+            style={styles.pagseguroImage}
+            resizeMode='contain'
+          />
         </View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.inputText}>Email</Text>
-            <CristaliInput />
+            <CristaliInput 
+              value={email}
+              onChangeText={setEmail}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputText}>Celular</Text>
-            <CristaliInput />
+            <CristaliInput 
+              value={phone}
+              onChangeText={setPhone}
+            />
           </View>
 
         <View style={styles.banner}>
@@ -57,7 +97,10 @@ export function PagSeguroScreen(){
           <View style={styles.bodyContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.inputText}>Número do Cartão</Text>
-              <CristaliInput />
+              <CristaliInput 
+                value={cardNumber}
+                onChangeText={setCardNumber}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.inputText}>Celular</Text>
@@ -68,9 +111,11 @@ export function PagSeguroScreen(){
               <View style={styles.codeRow}>
                 <View style={styles.codeCol}>
                   <Text style={styles.inputText}>Validade</Text>
-                  <CristaliInput 
+                  <CristaliInput
                     textAlign='center'
                     maxLength={5}
+                    value={expirate}
+                    onChangeText={setExpirate}
                   />
                 </View>
                 <View style={styles.codeCol}>
@@ -78,6 +123,8 @@ export function PagSeguroScreen(){
                   <CristaliInput 
                     textAlign='center'
                     maxLength={3}
+                    value={code}
+                    onChangeText={setCode}
                   />
                 </View>
               </View> 
@@ -90,7 +137,7 @@ export function PagSeguroScreen(){
           <CristaliButton 
             title="Finalizar"
             color={`${theme.colors.Success}`}
-            onPress={handleConcludeSale}
+            onPress={Validate}
           />
         </View>   
       </View>

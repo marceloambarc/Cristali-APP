@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, Image, TouchableWithoutFeedback, TouchableWithoutFeedbackProps, ImageURISource, View } from 'react-native';
 

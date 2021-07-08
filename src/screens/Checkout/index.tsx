@@ -12,53 +12,35 @@ import { CristaliInput } from '../../components/CristaliInput';
 import { CheckoutButton } from '../../components/CheckoutButton';
 
 export function Checkout(){
-  const [creditPressed, setCreditPressed] = useState(false);
-  const [debitPressed, setDebitPressed] = useState(false);
-  const [pixPressed, setPixPressed] = useState(false);
+  const [pagSeguroPressed, setPagSeguroPressed] = useState(false);
   const [moneyPressed, setMoneyPressed] = useState(false);
 
   const navigation = useNavigation()
+
+  function Validate(){
+    if(!pagSeguroPressed && !moneyPressed){
+      alert('Selecione um modo de pagamento!');
+    }else{
+      handlePagSeguroNavigate();
+    }
+  }
 
   function handlePagSeguroNavigate(){
     navigation.navigate('PagSeguro');
   }
 
-  async function handleCreditPressed(){
-    setCreditPressed(true);
-    setDebitPressed(false);
-    setPixPressed(false);
+  async function handlePagSeguroPressed(){
     setMoneyPressed(false);
-    if(creditPressed === true){
-      setCreditPressed(false);
-    }
-  }
-
-  async function handleDebitPressed(){
-    setDebitPressed(true);
-    setCreditPressed(false);
-    setPixPressed(false);
-    setMoneyPressed(false);
-    if(debitPressed === true){
-      setDebitPressed(false);
-    }
-  }
-
-  async function handlePixPressed(){
-    setPixPressed(true);
-    setDebitPressed(false);
-    setCreditPressed(false);
-    setMoneyPressed(false);
-    if(pixPressed === true){
-      setPixPressed(false);
+    setPagSeguroPressed(true);
+    if(pagSeguroPressed){
+      setPagSeguroPressed(false);
     }
   }
 
   async function handleMoneyPressed(){
+    setPagSeguroPressed(false);
     setMoneyPressed(true);
-    setPixPressed(false);
-    setDebitPressed(false);
-    setCreditPressed(false);
-    if(moneyPressed === true){
+    if(moneyPressed){
       setMoneyPressed(false);
     }
   }
@@ -100,34 +82,14 @@ export function Checkout(){
               <CheckoutButton
                 bcolor={`${theme.colors.text}`}
                 tcolor={`${theme.colors.credit}`}
-                title={`Receber com ${'\n'} Cartão de Crédito`}
-                onPress={handleCreditPressed}
-                path={require('../../assets/credit.png')}
-                pressed={creditPressed}
+                title={`Receber com PagSeguro`}
+                onPress={handlePagSeguroPressed}
+                path={require('../../assets/pagseguro.png')}
+                pressed={pagSeguroPressed}
               />
             </View >
-            <View style={styles.checkoutButtonCol}>
-              <CheckoutButton
-                bcolor={`${theme.colors.debitBorder}`}
-                tcolor={`${theme.colors.debit}`}
-                title={`Receber com ${'\n'} Cartão de Débito`}
-                onPress={handleDebitPressed}
-                path={require('../../assets/debit.png')}
-                pressed={debitPressed}
-              />
-            </View>
           </View>
           <View style={styles.checkoutButtonRow}>
-            <View style={styles.checkoutButtonCol}>
-              <CheckoutButton
-                bcolor={`${theme.colors.text}`}
-                tcolor={`${theme.colors.pix}`}
-                title={`Receber com ${'\n'} PIX`}
-                onPress={handlePixPressed}
-                path={require('../../assets/pix.png')}
-                pressed={pixPressed}
-              />
-            </View>
             <View style={styles.checkoutButtonCol}>
               <CheckoutButton
                 bcolor={`${theme.colors.Success}`}
@@ -145,7 +107,7 @@ export function Checkout(){
           <CristaliButton 
             color={`${theme.colors.Success}`}
             title="Continuar"
-            onPress={handlePagSeguroNavigate}
+            onPress={Validate}
           />
         </View>
 

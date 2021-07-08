@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Dimensions } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
 import { styles } from "./styles";
@@ -43,7 +43,7 @@ export function History(){
               style={styles.calendar}
               onPress={handleViewCalendar}
             >
-              <FontAwesome5 name="calendar-alt" size={52} color="black" />
+              <FontAwesome5 name="calendar-alt" size={Dimensions.get('window').height * .05} color="black" />
             </TouchableOpacity>
             
           </View>
