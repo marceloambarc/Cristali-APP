@@ -5,6 +5,9 @@ export const theme = {
     close: '#9CB2BB',
     return: '#2AB5D1',
 
+    loginInput: '#F2D0C4',
+    loginText: '#594F4D',
+
     background: '#CEDEE5',
     body: '#F2F3F5',
 

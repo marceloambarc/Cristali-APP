@@ -10,8 +10,11 @@ export interface OrderProps {
   id: string;
   number: string;
   client: string;
+  email: string;
   date: string;
   price: string;
+  telephone: string;
+  notes: string;
   open?: boolean
 }
 

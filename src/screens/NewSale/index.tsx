@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
+
+import { OrderProps } from "../../components/Order";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
@@ -12,12 +14,25 @@ import { CristaliButton } from "../../components/CristaliButton";
 import { Header } from "../../components/Header";
 
 export function NewSale(){
-  const [name, setName] = useState('');
+  const navigation = useNavigation();
+  const route = useRoute();
+  const params = route.params as OrderProps;
+
+  const [loading, setLoading] = useState(true);
+  const [client, setClient] = useState('');
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
-  const [discription, setDiscription] = useState('');
+  const [notes, setNotes] = useState('');
 
-  const navigation = useNavigation();
+  useEffect(() => {
+    if(params){
+      setClient(params.client);
+      setTelephone(params.telephone);
+      setEmail(params.email);
+      setNotes(params.notes);
+    }
+    setLoading(false);
+  },[params]);
 
   function handleGoBack(){
     navigation.navigate('Home');
@@ -31,6 +46,13 @@ export function NewSale(){
     navigation.navigate('Checkout');
   }
 
+  if(loading){
+    return(
+      <View>
+        <Text>Hello World</Text>
+      </View>
+    );
+  }
   return (
     <ScrollView>
       <StatusBar
@@ -66,7 +88,7 @@ export function NewSale(){
               </View>
               <CristaliInput 
                 clientInput
-                onChangeText={setName}
+                value={client}
               />
             </View>
 
@@ -85,7 +107,7 @@ export function NewSale(){
               </View>
               <CristaliInput 
                 clientInput
-                onChangeText={setTelephone}
+                value={telephone}
               />
             </View>
 
@@ -104,7 +126,7 @@ export function NewSale(){
               </View>
               <CristaliInput 
                 clientInput
-                onChangeText={setEmail}
+                value={email}
               />
             </View>
 
@@ -127,7 +149,7 @@ export function NewSale(){
                 numberOfLines={5}
                 autoCorrect={false}
                 autoCapitalize="none"
-                onChangeText={setDiscription}
+                value={notes}
               />
             </View>
           </View>

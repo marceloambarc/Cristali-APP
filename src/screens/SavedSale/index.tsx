@@ -14,15 +14,29 @@ import { theme } from "../../global/styles";
 
 export function SavedSale(){
   const [searchNumber, setSearchNumber] = useState('0');
+  const [searchName, setSearchName] = useState('');
+  const [searchTelephone, setSearchTelephone] = useState('');
+  const [searchEmail, setSearchEmail] = useState('');
+  const [searchNotes, setSearchNotes] = useState('');
 
   const navigation = useNavigation();
 
   function handleOrderSelect(orderSelect: OrderProps){
     setSearchNumber(orderSelect.number);
+    setSearchName(orderSelect.client);
+    setSearchTelephone(orderSelect.telephone);
+    setSearchEmail(orderSelect.email);
+    setSearchNotes(orderSelect.notes);
   }
 
   function handleLoadSale(){
-    navigation.navigate('NewSale');
+    navigation.navigate('NewSale',{
+      number: searchNumber,
+      client: searchName,
+      telephone: searchTelephone,
+      email: searchEmail,
+      notes: searchNotes
+    });
   }
 
   return (

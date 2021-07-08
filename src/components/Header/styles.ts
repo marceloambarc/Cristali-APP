@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
     backgroundColor: theme.colors.input,
-    height: 112,
+    height: Dimensions.get('window').height * .15,
     justifyContent: 'center',
     alignItems: 'center'
   },

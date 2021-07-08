@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 100
+    paddingTop: Dimensions.get('window').height *.15,
+    paddingBottom: Dimensions.get('window').height * 0.1
   },
   logoText: {
     fontFamily: theme.fonts.logo,
@@ -28,7 +29,7 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.text,
     fontSize: 15,
     lineHeight: 20.46,
-    color: theme.colors.input,
+    color: theme.colors.loginText,
     marginBottom: 10
   },
   buttonContainer: {

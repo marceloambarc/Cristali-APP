@@ -16,6 +16,18 @@ export function SignIn(){
 
   const navigation = useNavigation();
 
+  function Validation(){
+    if(login != '' && login != undefined){
+      if(password != '' && password != undefined){
+        handleEnterApp();
+      }else{
+        alert('Insira sua Senha');
+      }
+    }else{
+      alert('Insira seu Login');
+    }
+  }
+
   function handleEnterApp(){
     navigation.navigate('Home');
   }
@@ -25,7 +37,7 @@ export function SignIn(){
       <View style={styles.container}>
 
         <StatusBar
-          backgroundColor={theme.colors.primary}
+          backgroundColor={theme.colors.input}
           translucent={true}
         />
 
@@ -37,6 +49,8 @@ export function SignIn(){
             <Text style={styles.cristaliInputText}>USUÁRIO</Text>
             <CristaliInput 
               textAlign='center'
+              value={login}
+              peachpuff
               onChangeText={setLogin}
             />
           </View>
@@ -44,6 +58,8 @@ export function SignIn(){
             <Text style={styles.cristaliInputText}>SENHA</Text>
             <CristaliInput 
               textAlign='center'
+              peachpuff
+              value={password}
               onChangeText={setPassword}
             />
           </View>
@@ -51,9 +67,9 @@ export function SignIn(){
 
         <View style={styles.buttonContainer}>
           <CristaliButton
-            color={`${theme.colors.Continue}`}
-            title='Entrar' 
-            onPress={handleEnterApp} 
+            color={`${theme.colors.Success}`}
+            title='Entrar'
+            onPress={Validation} 
           />
         </View>
 

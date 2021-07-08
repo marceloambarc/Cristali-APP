@@ -9,11 +9,11 @@ interface Props {
 }
 
 export function Background({ children }: Props){
-  const { primary } = theme.colors
+  const { input } = theme.colors
   return (
     <LinearGradient
       style={styles.container}
-      colors={[ primary, primary ]}
+      colors={[ input, input ]}
     >
       { children }
     </LinearGradient>

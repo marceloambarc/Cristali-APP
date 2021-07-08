@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 60,
-    backgroundColor: theme.colors.secondary,
     color: theme.colors.text,
     borderRadius: 20,
     fontFamily: theme.fonts.text,
@@ -19,5 +18,12 @@ export const styles = StyleSheet.create({
   desactivated: {
     borderWidth: 1,
     borderColor: theme.colors.inputDesactivatedBorder
+  },
+  color1: {
+    backgroundColor: theme.colors.secondary,
+  },
+  color2: {
+    backgroundColor: theme.colors.loginInput,
+    color: theme.colors.loginText
   }
 });

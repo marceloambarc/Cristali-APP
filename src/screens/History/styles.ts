@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   },
   historyArea: {
     width: '100%',
+    marginTop: Platform.OS === 'ios'? 100 : 0
   },
   titleContainer: {
     flexDirection: 'row',
