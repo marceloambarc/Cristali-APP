@@ -11,17 +11,26 @@ import { CristaliList } from "../../components/CristaliList";
 import { OrderProps } from "../../components/Order";
 import { Header } from "../../components/Header";
 
+import { DATA } from "../../utils/data"; 
+
 export function History(){
   const [loading, setLoading] = useState(true);
-  const [historyCount, setHistoryCount] = useState('0');
+  const [historyCount, setHistoryCount] = useState(0);
   const [total, setTotal] = useState('0');
+
+  async function handleSetTotal(){
+   var totalPrototype = DATA.reduce((a,v) =>  a = a + parseFloat(v.price.replace('.','').replace(',','')) , 0);
+   setTotal(totalPrototype.toLocaleString('pt-br',{'currencyDisplay'}));
+  }
 
   useEffect(() => {
     setLoading(false);
+    setHistoryCount(DATA.length);
+    handleSetTotal();
   },[]);
 
   function handleOrderSelect(orderSelect: OrderProps){
-    alert('Hello World!');
+    alert('Selected ' + orderSelect.id);
   }
 
   function handleViewCalendar(){
@@ -59,17 +68,11 @@ export function History(){
               
             </View>
   
-            <Divider />
-  
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.title}>Resumo</Text>
-            </View>
-  
             <View style={styles.orderRow}>
               <View style={styles.orderCol}>
                 <Text style={styles.orderText}>Pedidos</Text>
                 <CristaliInput 
-                  value={historyCount}
+                  value={historyCount.toString()}
                   editable={false}
                   textAlign='center'
                 />
@@ -84,11 +87,7 @@ export function History(){
               </View>
             </View>
   
-            <View style={styles.dividerLimiter}>
-              <Divider />
-            </View>
-  
-            <View>
+            <View style={styles.list}>
               <CristaliList
                 handleOrderSelect={handleOrderSelect}
               />

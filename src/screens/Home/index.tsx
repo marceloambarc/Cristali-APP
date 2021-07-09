@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../components/Background';
 import { Logo } from '../../components/Logo';
@@ -8,14 +8,17 @@ import { CristaliButton } from '../../components/CristaliButton';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
-import { user } from '../../utils/user';
 
 interface User {
   id: number;
-  name: string;
+  username: string;
 }
 
 export function Home({}: User){
+  const route = useRoute();
+  const params = route.params as User;
+  const username = params.username;
+  
   const navigation = useNavigation();
 
   function handleHistoryNavigation(){
@@ -45,7 +48,7 @@ export function Home({}: User){
 
 
         <View style={styles.banner}>
-          <Text style={styles.username}>{ user.name }</Text>
+          <Text style={styles.username}>{ username }</Text>
         </View>
 
         <View style={styles.painel}>

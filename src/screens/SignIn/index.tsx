@@ -29,7 +29,9 @@ export function SignIn(){
   }
 
   function handleEnterApp(){
-    navigation.navigate('Home');
+    navigation.navigate('Home',{
+      username: login
+    });
   }
 
   return (
