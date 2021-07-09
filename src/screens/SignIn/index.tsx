@@ -41,8 +41,9 @@ export function SignIn(){
           translucent={true}
         />
 
-        <Logo />
-        <Text style={styles.logoText}>CRISTALI</Text>
+        <Logo 
+          subtext
+        />
 
         <View style={styles.credentials}>
           <View style={styles.credentialsRow}>

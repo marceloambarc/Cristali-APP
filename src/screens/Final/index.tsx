@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions, } from '@react-navigation/native';
 
 import { Logo } from '../../components/Logo';
 import { CristaliButton } from '../../components/CristaliButton';
@@ -12,7 +12,7 @@ export function Final(){
   const navigation = useNavigation();
 
   function handleBeggining(){
-    navigation.navigate('Home');
+    navigation.dispatch(StackActions.push('Home'));
   }
 
   return (

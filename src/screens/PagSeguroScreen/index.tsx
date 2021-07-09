@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StatusBar, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
+
+import { OrderProps } from '../../components/Order';
 
 import { Header } from '../../components/Header';
 import { CristaliInput } from '../../components/CristaliInput';
@@ -13,34 +15,49 @@ import { Banner } from '../../components/Banner';
 
 export function PagSeguroScreen(){
   const navigation = useNavigation();
+  const route = useRoute();
+  const params = route.params as OrderProps;
 
+  const [loading, setLoading] = useState(true);
+  const [client, setClient] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [notes, setNotes] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+
+  const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expirate, setExpirate] = useState('');
   const [code, setCode] = useState('');
 
+  useEffect(() => {
+    if(params){
+      setClient(params.client);
+      setTelephone(params.telephone);
+      setEmail(params.email);
+      setNotes(params.notes);
+      setTotalPrice(params.price);
+    }
+    setLoading(false);
+  },[params]);
+
   function Validate(){
-    if(email != '' && email != undefined){
-      if(phone != '' && phone != undefined){
-        if(cardNumber != '' && cardNumber != undefined){
-          if(expirate != '' && expirate != undefined){
-            if(code != '' && code != undefined){
-              handleConcludeSale();
-            }else{
-              alert('Insira do Código de Verificação do Cartão de Crédito');
-            }
+    if(cardName!= '' && cardName != undefined){
+      if(cardNumber != '' && cardNumber != undefined){
+        if(expirate != '' && expirate != undefined){
+          if(code != '' && code != undefined){
+            handleConcludeSale();
           }else{
-            alert('Insira a Data de Validade do Cartão de Crédito');
+            alert('Insira do Código de Verificação do Cartão de Crédito');
           }
         }else{
-          alert('Insira o Número do Cartão de Crédito');
+          alert('Insira a Data de Validade do Cartão de Crédito');
         }
       }else{
-        alert('Insira o Telefone do Cliente');
+        alert('Insira o Número do Cartão de Crédito');
       }
     }else{
-      alert('Insira o Email do Cliente');
+      alert('Insira o Nome Impresso no Cartão');
     }
   }
 
@@ -55,7 +72,7 @@ export function PagSeguroScreen(){
         backgroundColor={theme.colors.input}
       />
       <Header
-        title='Checkout'
+        title='Pagamento'
         haveBack
       />
       <View style={styles.container}>
@@ -69,17 +86,17 @@ export function PagSeguroScreen(){
         </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputText}>Email</Text>
+            <Text style={styles.inputText}>Email do(a) Cliente</Text>
             <CristaliInput 
               value={email}
               onChangeText={setEmail}
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputText}>Celular</Text>
+            <Text style={styles.inputText}>Celular do(a) Cliente</Text>
             <CristaliInput 
-              value={phone}
-              onChangeText={setPhone}
+              value={telephone}
+              onChangeText={setTelephone}
             />
           </View>
 
@@ -103,8 +120,11 @@ export function PagSeguroScreen(){
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.inputText}>Celular</Text>
-              <CristaliInput />
+              <Text style={styles.inputText}>Nome Impresso no Cartão</Text>
+              <CristaliInput 
+                value={cardName}
+                onChangeText={setCardName}
+              />
             </View>
 
             <View style={styles.code}>
@@ -122,6 +142,7 @@ export function PagSeguroScreen(){
                   <Text style={styles.inputText}>Cód. de Verificação</Text>
                   <CristaliInput 
                     textAlign='center'
+                    keyboardType='number-pad'
                     maxLength={3}
                     value={code}
                     onChangeText={setCode}

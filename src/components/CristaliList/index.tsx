@@ -17,7 +17,7 @@ const DATA = [
     date: '10/10/2021 - 15:32',
     price: '7.390,50',
     telephone: '(51)999351517',
-    notes: 'Hello World!',
+    notes: 'Cliente desde 2017',
     open: false
   },
   {
@@ -28,7 +28,7 @@ const DATA = [
     date: '02/10/2021 - 10:01',
     price: '2.110,50',
     telephone: '(51)9993512323',
-    notes: 'Hello World!',
+    notes: 'Anéis de casamento liso é sua preferência.',
     open: false
   },
   {
@@ -39,7 +39,7 @@ const DATA = [
     date: '27/09/2021 - 10:01',
     telephone: '(51)999430917',
     price: '777,77',
-    notes: 'Hello World!',
+    notes: 'Anéis de casamento liso é sua preferência.!',
     open: false
   }
 ];

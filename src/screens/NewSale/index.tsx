@@ -12,6 +12,9 @@ import { CristaliInput } from "../../components/CristaliInput";
 import { TextArea } from "../../components/TextArea";
 import { CristaliButton } from "../../components/CristaliButton";
 import { Header } from "../../components/Header";
+import { SearchButton } from "../../components/SearchButton";
+import { ModalView } from "../../components/ModalView";
+import { Insert } from "../Insert";
 
 export function NewSale(){
   const navigation = useNavigation();
@@ -24,26 +27,38 @@ export function NewSale(){
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
 
+  const [openInsertModal, setOpenInsertModal] = useState(false);
+  const [price, setPrice] = useState('');
+  const [totalPrice, setTotalPrice] = useState(price);
+
+
   useEffect(() => {
     if(params){
       setClient(params.client);
       setTelephone(params.telephone);
       setEmail(params.email);
       setNotes(params.notes);
+      setTotalPrice(params.price);
     }
     setLoading(false);
   },[params]);
 
-  function handleGoBack(){
-    navigation.navigate('Home');
+  function handleOpenProductModal(){
+    setOpenInsertModal(true);
   }
 
-  function handleInsertNewProduct(){
-    navigation.navigate('InsertProduct');
+  function handleValidate(){
+    setOpenInsertModal(false);
   }
 
   function handleContinue(){
-    navigation.navigate('Checkout');
+    navigation.navigate('Checkout',{
+      client,
+      telephone,
+      email,
+      notes,
+      price
+    });
   }
 
   if(loading){
@@ -61,7 +76,6 @@ export function NewSale(){
       />
       <Header
         title='Nova Venda'
-        haveBack
         haveClose
       />
       <View style={styles.container}>
@@ -69,6 +83,10 @@ export function NewSale(){
 
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Dados do cliente</Text>
+            <SearchButton
+              color={`${theme.colors.Config}`}
+              onPress={() => navigation.navigate('Client')}
+            />
           </View>
           <Divider />
 
@@ -177,18 +195,33 @@ export function NewSale(){
               <Text style={styles.orderText}>Preço</Text>
               <CristaliInput 
                 textAlign='center'
+                value={totalPrice}
               />
             </View>
           </View>
 
           <Divider />
 
-          <View style={styles.insertProduct}>
-            <CristaliButton 
-              title="Inserir Novo Produto"
-              color={`${theme.colors.Continue}`}
-              onPress={handleInsertNewProduct}
+          <View style={styles.productContainer}>
+            <CristaliInput 
+              textAlign='center'
+              value={price}
             />
+          </View>
+
+
+          <View style={styles.insertProduct}>
+            {
+              openInsertModal?
+              <View />
+              :
+              <CristaliButton 
+              title="Inserir"
+              color={`${theme.colors.Continue}`}
+              onPress={handleOpenProductModal}
+            />
+             
+            }
           </View>
 
           <Divider />
@@ -205,6 +238,17 @@ export function NewSale(){
 
         </View>
       </View>
+
+      <ModalView 
+        visible={openInsertModal}
+        closeModal={handleValidate}
+      >
+        <Insert
+          value={price}
+          onChangeText={setPrice}
+          handleValidate={handleValidate}
+        />
+      </ModalView>
     </ScrollView>
   );
 }

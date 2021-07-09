@@ -12,6 +12,22 @@ export const styles = StyleSheet.create({
     height: 147,
     borderRadius: 20
   },
+  bannerRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  bannerCol: {
+    flexDirection: 'column',
+    paddingHorizontal: 5
+  },
+  cardsImage: {
+    width: 70,
+    height: 50,
+    borderRadius: 15
+  },
   textContainer: {
     alignItems: 'center',
     justifyContent: 'center',

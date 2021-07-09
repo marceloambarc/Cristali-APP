@@ -6,8 +6,10 @@ import { Home } from '../screens/Home';
 import { History } from '../screens/History';
 import { SavedSale } from '../screens/SavedSale';
 import { NewSale } from '../screens/NewSale';
-import { InsertProduct } from '../screens/InsertProduct';
+import { Client } from '../screens/Client';
+import { EditProduct } from '../screens/EditProduct';
 import { Checkout } from '../screens/Checkout';
+import { MoneyScreen } from '../screens/MoneyScreen';
 import { PagSeguroScreen } from '../screens/PagSeguroScreen';
 import { Final } from '../screens/Final';
 
@@ -23,8 +25,10 @@ export function AppRoutes(){
       <Screen name="History" component={History} />
       <Screen name="SavedSale" component={SavedSale} />
       <Screen name="NewSale" component={NewSale} />
-      <Screen name="InsertProduct" component={InsertProduct} />
+      <Screen name="Client" component={Client} />
+      <Screen name="EditProduct" component={EditProduct} />
       <Screen name="Checkout" component={Checkout} />
+      <Screen name="Money" component={MoneyScreen} />
       <Screen name="PagSeguro" component={PagSeguroScreen} />
       <Screen name="Final" component={Final} />
     </Navigator>

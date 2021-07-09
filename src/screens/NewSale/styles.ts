@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
@@ -10,11 +10,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   clientArea: {
-    paddingTop: 20,
+    paddingTop: Dimensions.get('window').height * 0.01,
     width: '100%',
   },
   titleContainer: {
-    paddingVertical: 35
+    paddingVertical: Dimensions.get('window').height *0.04,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   title: {
     fontFamily: theme.fonts.heading,
@@ -67,6 +70,12 @@ export const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 15,
     marginBottom: 9
+  },
+  productContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: Dimensions.get('window').width * .1,
+    marginTop: Dimensions.get('window').height * .03
   },
   insertProduct: {
     paddingVertical: 24,

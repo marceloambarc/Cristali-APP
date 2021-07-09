@@ -6,14 +6,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: Dimensions.get('window').height * .2,
+    paddingTop: Dimensions.get('window').height * .15,
     marginBottom: Dimensions.get('window').height *.1
+  },
+  logoContainer: {
+    paddingVertical: 10
   },
   banner: {
     justifyContent: 'center',
     alignItems: 'center',
     lineHeight: 7,
-    marginTop: Dimensions.get('window').height * .01,
+    marginTop: Dimensions.get('window').height * .03,
     marginBottom: Dimensions.get('window').height * .07
   },
   username: {

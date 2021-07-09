@@ -11,7 +11,7 @@ import { InsertPhoto } from '../../components/InsertPhoto';
 import { CristaliButton } from '../../components/CristaliButton';
 import { Header } from '../../components/Header';
 
-export function InsertProduct(){
+export function EditProduct(){
   const [code, setCode] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');

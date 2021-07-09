@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,5 +10,12 @@ export const styles = StyleSheet.create({
   logo: {
     width: 75.97,
     height: 68,
+  },
+  subtextContainer: {
+
+  },
+  subtextImage: {
+    width: Dimensions.get('window').height * 0.3,
+    height: Dimensions.get('window').height * .1
   }
 })

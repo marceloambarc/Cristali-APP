@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
+
+import { OrderProps } from "../../components/Order";
 
 import { Header } from '../../components/Header';
 import { Divider } from '../../components/Divider';
@@ -14,23 +16,57 @@ import { CheckoutButton } from '../../components/CheckoutButton';
 export function Checkout(){
   const [pagSeguroPressed, setPagSeguroPressed] = useState(false);
   const [moneyPressed, setMoneyPressed] = useState(false);
+  const [alterPressed, setAlterPressed] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [client, setClient] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [email, setEmail] = useState('');
+  const [notes, setNotes] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
 
   const navigation = useNavigation()
+  const route = useRoute();
+  const params = route.params as OrderProps;
+
+  useEffect(() => {
+    if(params){
+      setClient(params.client);
+      setTelephone(params.telephone);
+      setEmail(params.email);
+      setNotes(params.notes);
+      setTotalPrice(params.price);
+    }
+    setLoading(false);
+  },[params]);
 
   function Validate(){
-    if(!pagSeguroPressed && !moneyPressed){
+    if(!pagSeguroPressed && !moneyPressed && !alterPressed){
       alert('Selecione um modo de pagamento!');
     }else{
-      handlePagSeguroNavigate();
+      if(pagSeguroPressed){
+        navigation.navigate('PagSeguro',{
+          client,
+          telephone,
+          email,
+          notes,
+          price: totalPrice
+        });
+      }else if(moneyPressed){
+        navigation.navigate('Money',{
+          isMoney: false
+        });
+      }else{
+        navigation.navigate('Money',{
+          isMoney: true
+        })
+      }
     }
-  }
-
-  function handlePagSeguroNavigate(){
-    navigation.navigate('PagSeguro');
   }
 
   async function handlePagSeguroPressed(){
     setMoneyPressed(false);
+    setAlterPressed(false);
     setPagSeguroPressed(true);
     if(pagSeguroPressed){
       setPagSeguroPressed(false);
@@ -40,8 +76,18 @@ export function Checkout(){
   async function handleMoneyPressed(){
     setPagSeguroPressed(false);
     setMoneyPressed(true);
+    setAlterPressed(false);
     if(moneyPressed){
       setMoneyPressed(false);
+    }
+  }
+
+  async function handleAlterPressed(){
+    setMoneyPressed(false);
+    setPagSeguroPressed(false);
+    setAlterPressed(true);
+    if(alterPressed){
+      setAlterPressed(false);
     }
   }
 
@@ -61,6 +107,8 @@ export function Checkout(){
           <Text style={[styles.title, {fontSize: 18}]}>Total Pedido</Text>
           <CristaliInput 
             textAlign='center'
+            value={totalPrice}
+            editable={false}
           />
         </View>
 
@@ -98,6 +146,18 @@ export function Checkout(){
                 onPress={handleMoneyPressed}
                 path={require('../../assets/money.png')}
                 pressed={moneyPressed}
+                />
+            </View>
+          </View>
+          <View style={styles.checkoutButtonRow}>
+            <View style={styles.checkoutButtonCol}>
+              <CheckoutButton
+                bcolor={`${theme.colors.Success}`}
+                tcolor={`${theme.colors.credit}`}
+                title="Outra forma de Pagamento"
+                onPress={handleAlterPressed}
+                path={require('../../assets/payment.png')}
+                pressed={alterPressed}
                 />
             </View>
           </View>

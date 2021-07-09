@@ -37,11 +37,15 @@ export function Home({}: User){
   return (
     <Background>
       <View style={styles.container}>
-        <Logo />
+        <View style={styles.logoContainer}>
+          <Logo 
+            subtext
+          />
+        </View>
+
 
         <View style={styles.banner}>
           <Text style={styles.username}>{ user.name }</Text>
-          <Text style={styles.title}>CRISTALI</Text>
         </View>
 
         <View style={styles.painel}>
