@@ -71,9 +71,6 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 9
   },
-  productContainer: {
-    height: Dimensions.get('window').height *1
-  },
   insertProduct: {
     paddingVertical: 24,
     marginBottom: 10
@@ -81,4 +78,18 @@ export const styles = StyleSheet.create({
   footer: {
     paddingVertical: 24,
   },
+  productContainer: {
+    paddingVertical: Dimensions.get('window').height * 0.015
+  },
+  list: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: Dimensions.get('window').height * .015
+  },
+  listButton: {
+    padding: 10,
+    borderRadius: 10,
+    marginHorizontal: Dimensions.get('window').width * .007
+  }
 });

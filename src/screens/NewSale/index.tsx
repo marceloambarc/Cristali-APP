@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions } from "react-native";
+import React, { useState, useEffect, createRef } from "react";
+import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
@@ -9,11 +10,19 @@ import { OrderProps } from "../../components/Order";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
+import { CristaliInputMoney } from "../../components/CristaliInputMoney";
 import { TextArea } from "../../components/TextArea";
 import { CristaliButton } from "../../components/CristaliButton";
 import { Header } from "../../components/Header";
 import { SearchButton } from "../../components/SearchButton";
-import { InsertList } from "../../components/InsertList";
+
+interface TodoItem {
+  id: number;
+  value: string;
+}
+
+export let itemCounter = 1;
+
 export function NewSale(){
   const navigation = useNavigation();
   const route = useRoute();
@@ -25,9 +34,10 @@ export function NewSale(){
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
 
-  const [price, setPrice] = useState('');
-  const [totalPrice, setTotalPrice] = useState(price);
+  const [sellPrice, setSellPrice] = useState(0);
+  const [piece, setPiece] = useState(0);
 
+  const [totalPrice, setTotalPrice] = useState('');
 
   useEffect(() => {
     if(params){
@@ -40,13 +50,38 @@ export function NewSale(){
     setLoading(false);
   },[params]);
 
+  const [list, setList] = useState<TodoItem[]>([{id: 0, value: ''}]);
+
+  const handleChange = (value: string, id: TodoItem['id']) => {
+    setList(prev => prev.map(item => item.id === id? {...item, value} : item));
+  }
+
+  const handleDelete = (id: TodoItem['id'], value: string) => {
+    setList(prev => prev.filter(item => item.id !== id));
+    setPiece(prev=> prev-1);
+    var price = parseInt(value.replace(/\D/g, ""));
+    setSellPrice(price - sellPrice);
+  }
+
+  const handleAdd = (index: number, value: string) => {
+    const newItem = {id: itemCounter ++, value: ''}
+    if(value === ''){
+      alert('Insira o Valor.');
+    }else{
+      var price = parseInt(value.replace(/\D/g, ""));
+      setList(prev => [...prev.slice(0, index+1), newItem, ...prev.slice(index + 1)]);
+      setPiece(prev => prev+1);
+      setSellPrice(price + sellPrice);
+    }
+  }
+
   function handleContinue(){
     navigation.navigate('Checkout',{
       client,
       telephone,
       email,
       notes,
-      price
+      sellPrice
     });
   }
 
@@ -188,20 +223,59 @@ export function NewSale(){
               <Text style={styles.orderText}>Peças</Text>
               <CristaliInput 
                 textAlign='center'
+                value={piece.toString()}
               />
             </View>
             <View style={styles.orderCol}>
               <Text style={styles.orderText}>Preço</Text>
-              <CristaliInput 
+              <CristaliInputMoney
+                type={'money'}
                 textAlign='center'
-                value={totalPrice}
+                value={sellPrice.toString()}
               />
             </View>
           </View>
 
           <Divider />
 
-          <InsertList />
+          <View 
+            style={styles.productContainer}
+          >
+          {list.map((item, index) => (
+            <View 
+              key={item.id}
+              style={styles.list}
+            >
+              <View 
+                key={item.id}
+                style={{width: Dimensions.get('window').width *.6}}
+              >
+                <CristaliInputMoney
+                  type={'money'}
+                  key={item.id}
+                  value={item.value}
+                  onChangeText={e => handleChange(e, item.id)}
+                  placeholder='Insira o Valor do Produto'
+                  keyboardType='number-pad'
+                />
+              </View>
+              <TouchableOpacity
+                style={[styles.listButton, {backgroundColor: theme.colors.Success}]}
+                onPress={() => handleAdd(index, item.value)}
+              >
+                <AntDesign name="plus" size={24} color="white" />
+              </TouchableOpacity>
+              {list.length > 1 && (
+                <TouchableOpacity
+                  style={[styles.listButton, {backgroundColor: theme.colors.Cancel}]}
+                  onPress={() => handleDelete(item.id, item.value)}
+                >
+                  <AntDesign name="minus" size={24} color="black" />
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
+        </View>
 
           <Divider />
 
