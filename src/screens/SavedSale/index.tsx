@@ -74,9 +74,12 @@ export function SavedSale(){
 
       <Divider />
 
-      <CristaliList
-        handleOrderSelect={handleOrderSelect}
-      />
+      <View style={styles.list}>
+        <CristaliList
+          handleOrderSelect={handleOrderSelect}
+        />
+      </View>
+
     </View>
     </>
   );

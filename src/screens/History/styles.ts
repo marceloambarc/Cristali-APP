@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   historyArea: {
     width: '100%',
-    marginTop: Platform.OS === 'ios'? 100 : -20
+    marginTop: Dimensions.get('window').height * 0.15
   },
   titleContainer: {
     flexDirection: 'row',

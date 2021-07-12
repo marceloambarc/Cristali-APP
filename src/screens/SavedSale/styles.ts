@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   titleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 24
+    paddingVertical: Dimensions.get('window').height *.020
   },
   title: {
     fontFamily: theme.fonts.heading,
@@ -19,9 +19,12 @@ export const styles = StyleSheet.create({
     fontSize: 18
   },
   inputContainer: {
-    paddingBottom: 24
+    paddingBottom: Dimensions.get('window').height *.012
   },
   buttonContainer: {
-    paddingBottom: 40
+    paddingBottom: Dimensions.get('window').height *.015
+  },
+  list: {
+    height: Dimensions.get('window').height * .55,
   }
 });

@@ -5,7 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
-import { Divider } from "../../components/Divider";
+import { CristaliInputMoney } from "../../components/CristaliInputMoney";
 import { CristaliInput } from "../../components/CristaliInput";
 import { CristaliList } from "../../components/CristaliList";
 import { OrderProps } from "../../components/Order";
@@ -19,8 +19,7 @@ export function History(){
   const [total, setTotal] = useState('0');
 
   async function handleSetTotal(){
-   var totalPrototype = DATA.reduce((a,v) =>  a = a + parseFloat(v.price.replace('.','').replace(',','')) , 0);
-   setTotal(totalPrototype.toLocaleString('pt-br',{'currencyDisplay'}));
+   setTotal(DATA.reduce((a,v) =>  a = a + parseFloat(v.price.replace('.','').replace(',','')) , 0).toString());
   }
 
   useEffect(() => {
@@ -79,7 +78,8 @@ export function History(){
               </View>
               <View style={styles.orderCol}>
                 <Text style={styles.orderText}>Total</Text>
-                <CristaliInput 
+                <CristaliInputMoney
+                  type={"money"}
                   value={total}
                   editable={false}
                   textAlign='center'
