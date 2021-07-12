@@ -14,8 +14,6 @@ interface Props extends ReactProps {
   handleValidate: () => void;
 }
 
-  
-
 export function Insert({ handleValidate, ...rest } : Props){
 
   return (

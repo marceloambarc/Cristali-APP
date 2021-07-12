@@ -72,10 +72,7 @@ export const styles = StyleSheet.create({
     marginBottom: 9
   },
   productContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Dimensions.get('window').width * .1,
-    marginTop: Dimensions.get('window').height * .03
+    height: Dimensions.get('window').height *1
   },
   insertProduct: {
     paddingVertical: 24,
@@ -84,7 +81,4 @@ export const styles = StyleSheet.create({
   footer: {
     paddingVertical: 24,
   },
-  footerContainer: {
-    paddingVertical: 20,
-  }
 });

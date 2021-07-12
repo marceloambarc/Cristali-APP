@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StatusBar } from "react-native";
+import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { styles } from "./styles";
@@ -13,9 +13,7 @@ import { TextArea } from "../../components/TextArea";
 import { CristaliButton } from "../../components/CristaliButton";
 import { Header } from "../../components/Header";
 import { SearchButton } from "../../components/SearchButton";
-import { ModalView } from "../../components/ModalView";
-import { Insert } from "../Insert";
-
+import { InsertList } from "../../components/InsertList";
 export function NewSale(){
   const navigation = useNavigation();
   const route = useRoute();
@@ -27,7 +25,6 @@ export function NewSale(){
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
 
-  const [openInsertModal, setOpenInsertModal] = useState(false);
   const [price, setPrice] = useState('');
   const [totalPrice, setTotalPrice] = useState(price);
 
@@ -42,14 +39,6 @@ export function NewSale(){
     }
     setLoading(false);
   },[params]);
-
-  function handleOpenProductModal(){
-    setOpenInsertModal(true);
-  }
-
-  function handleValidate(){
-    setOpenInsertModal(false);
-  }
 
   function handleContinue(){
     navigation.navigate('Checkout',{
@@ -69,7 +58,12 @@ export function NewSale(){
     );
   }
   return (
-    <ScrollView>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      keyboardVerticalOffset={(Platform.OS === 'ios')? 7 : 0}
+      contentContainerStyle={{backgroundColor: 'transparent'}}
+      behavior={(Platform.OS === 'ios')? "padding" : undefined}
+    >
       <StatusBar
         barStyle='dark-content'
         backgroundColor={theme.colors.input}
@@ -78,7 +72,12 @@ export function NewSale(){
         title='Nova Venda'
         haveClose
       />
-      <View style={styles.container}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+      >
+      <View
+        style={styles.container}
+      >
         <View style={styles.clientArea}>
 
           <View style={styles.titleContainer}>
@@ -180,7 +179,7 @@ export function NewSale(){
 
           <Divider />
 
-          <View style={[styles.titleContainer, {justifyContent: 'center', alignItems: 'center'}]}>
+            <View style={[styles.titleContainer, {justifyContent: 'center', alignItems: 'center'}]}>
             <Text style={styles.subtitle}>Total Pedido</Text>
           </View>
 
@@ -202,32 +201,12 @@ export function NewSale(){
 
           <Divider />
 
-          <View style={styles.productContainer}>
-            <CristaliInput 
-              textAlign='center'
-              value={price}
-            />
-          </View>
-
-
-          <View style={styles.insertProduct}>
-            {
-              openInsertModal?
-              <View />
-              :
-              <CristaliButton 
-              title="Inserir"
-              color={`${theme.colors.Continue}`}
-              onPress={handleOpenProductModal}
-            />
-             
-            }
-          </View>
+          <InsertList />
 
           <Divider />
 
           <View style={styles.footer}>
-            <View style={styles.footerContainer}>
+            <View>
               <CristaliButton 
                 title="Continuar"
                 color={`${theme.colors.Success}`}
@@ -238,17 +217,8 @@ export function NewSale(){
 
         </View>
       </View>
-
-      <ModalView 
-        visible={openInsertModal}
-        closeModal={handleValidate}
-      >
-        <Insert
-          value={price}
-          onChangeText={setPrice}
-          handleValidate={handleValidate}
-        />
-      </ModalView>
+      
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
