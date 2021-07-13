@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
 import { Background } from '../../components/Background';
 import { Logo } from '../../components/Logo';
@@ -9,16 +9,24 @@ import { CristaliButton } from '../../components/CristaliButton';
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
-interface User {
-  id: number;
+export interface UserProps {
+  id?: number;
   username: string;
 }
 
-export function Home({}: User){
+export function Home({}: UserProps){
+  const [user, setUser] = useState<UserProps>({} as UserProps);
   const route = useRoute();
-  const userParams = route.params as User;
-  const username = userParams.username;
-  
+
+  useEffect(() => {
+    const userParams = route.params as UserProps;
+    const userData = {
+      username: userParams.username,
+      //
+    }
+    setUser(userData);
+  },[]);
+
   const navigation = useNavigation();
 
   function handleHistoryNavigation(){
@@ -30,11 +38,14 @@ export function Home({}: User){
   }
 
   function handleNewSaleNavigation(){
-    navigation.navigate('NewSale');
+    navigation.navigate('NewSale',{
+      username: user.username,
+      clear: true
+    });
   }
 
-  function handleSignOut(){
-    navigation.navigate('SignIn');
+  async function handleSignOut(){
+    navigation.dispatch(StackActions.push('SignIn'));
   }
 
   return (
@@ -48,7 +59,7 @@ export function Home({}: User){
 
 
         <View style={styles.banner}>
-          <Text style={styles.username}>{ username }</Text>
+          <Text style={styles.username}>{ user.username }</Text>
         </View>
 
         <View style={styles.painel}>

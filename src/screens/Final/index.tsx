@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useNavigation, StackActions, } from '@react-navigation/native';
+import { useNavigation, StackActions, useRoute } from '@react-navigation/native';
+
+import { UserProps } from '../Home';
 
 import { Logo } from '../../components/Logo';
 import { CristaliButton } from '../../components/CristaliButton';
@@ -10,9 +12,15 @@ import { theme } from '../../global/styles';
 
 export function Final(){
   const navigation = useNavigation();
+  const route = useRoute();
+  const userParams = route.params as UserProps;
+
+  const username = userParams.username;
 
   function handleBeggining(){
-    navigation.dispatch(StackActions.push('Home'));
+    navigation.dispatch(StackActions.push('Home',{
+      username
+    }));
   }
 
   return (

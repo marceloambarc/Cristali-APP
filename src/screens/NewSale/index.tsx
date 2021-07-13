@@ -1,12 +1,13 @@
-import React, { useState, useEffect, createRef } from "react";
-import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useState, useEffect} from "react";
+import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert } from "react-native";
+import { useNavigation, useRoute, StackActions } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
 import { OrderProps } from "../../components/Order";
+import { UserProps } from "../Home";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
@@ -20,6 +21,7 @@ interface TodoItem {
   id: number;
   value: string;
   title: string;
+  clear?: boolean
 }
 
 export let itemCounter = 1;
@@ -27,7 +29,12 @@ export let itemCounter = 1;
 export function NewSale(){
   const navigation = useNavigation();
   const route = useRoute();
-  const params = route.params as OrderProps;
+
+  const orderParams = route.params as OrderProps;
+  const userParams = route.params as UserProps;
+  const itemParams = route.params as TodoItem;
+
+  const [username, setUsername] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [client, setClient] = useState('');
@@ -41,15 +48,27 @@ export function NewSale(){
   const [totalPrice, setTotalPrice] = useState('');
 
   useEffect(() => {
-    if(params){
-      setClient(params.client);
-      setTelephone(params.telephone);
-      setEmail(params.email);
-      setNotes(params.notes);
-      setTotalPrice(params.price);
+    if(orderParams){
+      setClient(orderParams.client);
+      setTelephone(orderParams.telephone);
+      setEmail(orderParams.email);
+      setNotes(orderParams.notes);
+      setTotalPrice(orderParams.price);
+    }
+    if(userParams){
+      setUsername(userParams.username);
+    }else{
+      Alert.alert(
+        'Ops!',
+        'Você Não pode Acessar, não está Logado(a)'
+      )
+      navigation.dispatch(StackActions.push('SignIn'));
+    }
+    if(itemParams.clear){
+      setList([{id: 0, value: '', title: ''}]);
     }
     setLoading(false);
-  },[params]);
+  },[orderParams, userParams]);
 
   const [list, setList] = useState<TodoItem[]>([{id: 0, value: '', title: ''}]);
 
@@ -85,6 +104,7 @@ export function NewSale(){
       alert('Insira um Produto.');
     }else{
       navigation.navigate('Checkout',{
+        username,
         client,
         telephone,
         email,

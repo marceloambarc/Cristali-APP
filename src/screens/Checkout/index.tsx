@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StatusBar } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Text, ScrollView, StatusBar, Alert } from 'react-native';
+import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 import { OrderProps } from "../../components/Order";
+import { UserProps } from '../Home';
 
 import { Header } from '../../components/Header';
 import { Divider } from '../../components/Divider';
 import { CristaliButton } from '../../components/CristaliButton';
-import { CristaliInput } from '../../components/CristaliInput';
 import { CheckoutButton } from '../../components/CheckoutButton';
 import { CristaliInputMoney } from '../../components/CristaliInputMoney';
 
@@ -18,6 +18,8 @@ export function Checkout(){
   const [pagSeguroPressed, setPagSeguroPressed] = useState(false);
   const [moneyPressed, setMoneyPressed] = useState(false);
   const [alterPressed, setAlterPressed] = useState(false);
+
+  const [username, setUsername] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [client, setClient] = useState('');
@@ -28,18 +30,28 @@ export function Checkout(){
 
   const navigation = useNavigation()
   const route = useRoute();
-  const params = route.params as OrderProps;
+  const orderParams = route.params as OrderProps;
+  const userParams = route.params as UserProps
 
   useEffect(() => {
-    if(params){
-      setClient(params.client);
-      setTelephone(params.telephone);
-      setEmail(params.email);
-      setNotes(params.notes);
-      setTotalPrice(params.price);
+    if(orderParams){
+      setClient(orderParams.client);
+      setTelephone(orderParams.telephone);
+      setEmail(orderParams.email);
+      setNotes(orderParams.notes);
+      setTotalPrice(orderParams.price);
+    }
+    if(userParams){
+      setUsername(userParams.username);
+    }else{
+      Alert.alert(
+        'Ops!',
+        'Você Não pode Acessar, não está Logado(a)'
+      )
+      navigation.dispatch(StackActions.push('SignIn'));
     }
     setLoading(false);
-  },[params]);
+  },[orderParams, userParams]);
 
   function Validate(){
     if(!pagSeguroPressed && !moneyPressed && !alterPressed){
@@ -47,6 +59,7 @@ export function Checkout(){
     }else{
       if(pagSeguroPressed){
         navigation.navigate('PagSeguro',{
+          username,
           client,
           telephone,
           email,
@@ -55,10 +68,12 @@ export function Checkout(){
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{
+          username,
           isMoney: false
         });
       }else{
         navigation.navigate('Money',{
+          username,
           isMoney: true
         })
       }

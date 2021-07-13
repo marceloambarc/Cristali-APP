@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StatusBar, Image } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Text, ScrollView, StatusBar, Image, Alert } from 'react-native';
+import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 import { OrderProps } from '../../components/Order';
+import { UserProps } from '../Home';
 
 import { Header } from '../../components/Header';
 import { CristaliInput } from '../../components/CristaliInput';
@@ -16,7 +17,10 @@ import { Banner } from '../../components/Banner';
 export function PagSeguroScreen(){
   const navigation = useNavigation();
   const route = useRoute();
-  const params = route.params as OrderProps;
+  const orderParams = route.params as OrderProps;
+  const userParams = route.params as UserProps;
+
+  const [username, setUsername] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [client, setClient] = useState('');
@@ -31,15 +35,24 @@ export function PagSeguroScreen(){
   const [code, setCode] = useState('');
 
   useEffect(() => {
-    if(params){
-      setClient(params.client);
-      setTelephone(params.telephone);
-      setEmail(params.email);
-      setNotes(params.notes);
-      setTotalPrice(params.price);
+    if(orderParams){
+      setClient(orderParams.client);
+      setTelephone(orderParams.telephone);
+      setEmail(orderParams.email);
+      setNotes(orderParams.notes);
+      setTotalPrice(orderParams.price);
+    }
+    if(userParams){
+      setUsername(userParams.username);
+    }else{
+      Alert.alert(
+        'Ops!',
+        'Você Não pode Acessar, não está Logado(a)'
+      )
+      navigation.dispatch(StackActions.push('SignIn'));
     }
     setLoading(false);
-  },[params]);
+  },[orderParams]);
 
   function Validate(){
     if(cardName!= '' && cardName != undefined){
@@ -62,7 +75,10 @@ export function PagSeguroScreen(){
   }
 
   function handleConcludeSale(){
-    navigation.navigate('Final');
+    navigation.setParams({orderParams: null});
+    navigation.navigate('Final',{
+      username
+    });
   }
 
   return (
