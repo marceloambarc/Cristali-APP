@@ -272,7 +272,7 @@ export function NewSale(){
                       <CristaliInput 
                         value={item.title}
                         onChangeText={e => handleTitleChange(e, item.id)}
-                        placeholder="Nome..."
+                        placeholder="Produto..."
                         clientInput
                       />
                     </View>
