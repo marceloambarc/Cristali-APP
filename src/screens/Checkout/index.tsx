@@ -12,6 +12,7 @@ import { Divider } from '../../components/Divider';
 import { CristaliButton } from '../../components/CristaliButton';
 import { CristaliInput } from '../../components/CristaliInput';
 import { CheckoutButton } from '../../components/CheckoutButton';
+import { CristaliInputMoney } from '../../components/CristaliInputMoney';
 
 export function Checkout(){
   const [pagSeguroPressed, setPagSeguroPressed] = useState(false);
@@ -50,7 +51,7 @@ export function Checkout(){
           telephone,
           email,
           notes,
-          price: totalPrice
+          price: totalPrice.toString()
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{
@@ -105,7 +106,8 @@ export function Checkout(){
 
         <View style={styles.titleContainer}>
           <Text style={[styles.title, {fontSize: 18}]}>Total Pedido</Text>
-          <CristaliInput 
+          <CristaliInputMoney
+            type={'money'}
             textAlign='center'
             value={totalPrice}
             editable={false}

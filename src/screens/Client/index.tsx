@@ -75,9 +75,11 @@ export function Client(){
 
       <Divider />
 
-      <CristaliList
-        handleOrderSelect={handleOrderSelect}
-      />
+      <View style={styles.clientList}>
+        <CristaliList
+          handleOrderSelect={handleOrderSelect}
+        />
+      </View>
 
       <View style={styles.inputContainer}>
         <CristaliInput 

@@ -16,8 +16,8 @@ interface User {
 
 export function Home({}: User){
   const route = useRoute();
-  const params = route.params as User;
-  const username = params.username;
+  const userParams = route.params as User;
+  const username = userParams.username;
   
   const navigation = useNavigation();
 

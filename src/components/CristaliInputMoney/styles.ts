@@ -25,5 +25,11 @@ export const styles = StyleSheet.create({
   color2: {
     backgroundColor: theme.colors.loginInput,
     color: theme.colors.loginText
+  },
+  insert: {
+
+  },
+  inserted: {
+    backgroundColor: theme.colors.Config
   }
 });

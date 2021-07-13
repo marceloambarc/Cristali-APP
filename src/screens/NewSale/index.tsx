@@ -19,6 +19,7 @@ import { SearchButton } from "../../components/SearchButton";
 interface TodoItem {
   id: number;
   value: string;
+  title: string;
 }
 
 export let itemCounter = 1;
@@ -50,10 +51,14 @@ export function NewSale(){
     setLoading(false);
   },[params]);
 
-  const [list, setList] = useState<TodoItem[]>([{id: 0, value: ''}]);
+  const [list, setList] = useState<TodoItem[]>([{id: 0, value: '', title: ''}]);
 
   const handleChange = (value: string, id: TodoItem['id']) => {
     setList(prev => prev.map(item => item.id === id? {...item, value} : item));
+  }
+
+  const handleTitleChange = (title: string, id: TodoItem['id']) => {
+    setList(prev => prev.map(item => item.id ===id? {...item, title} : item))
   }
 
   const handleDelete = (id: TodoItem['id'], value: string) => {
@@ -64,7 +69,7 @@ export function NewSale(){
   }
 
   const handleAdd = (index: number, value: string) => {
-    const newItem = {id: itemCounter ++, value: ''}
+    const newItem = {id: itemCounter ++, value: '', title: ''}
     if(value === ''){
       alert('Insira o Valor.');
     }else{
@@ -76,13 +81,17 @@ export function NewSale(){
   }
 
   function handleContinue(){
-    navigation.navigate('Checkout',{
-      client,
-      telephone,
-      email,
-      notes,
-      sellPrice
-    });
+    if(piece <= 0){
+      alert('Insira um Produto.');
+    }else{
+      navigation.navigate('Checkout',{
+        client,
+        telephone,
+        email,
+        notes,
+        price: sellPrice.toString()
+      });
+    }
   }
 
   if(loading){
@@ -214,10 +223,6 @@ export function NewSale(){
 
           <Divider />
 
-            <View style={[styles.titleContainer, {justifyContent: 'center', alignItems: 'center'}]}>
-            <Text style={styles.subtitle}>Total Pedido</Text>
-          </View>
-
           <View style={styles.orderRow}>
             <View style={styles.orderCol}>
               <Text style={styles.orderText}>Peças</Text>
@@ -250,6 +255,30 @@ export function NewSale(){
                 key={item.id}
                 style={{width: Dimensions.get('window').width *.6}}
               >
+                
+                {index <= piece -1
+                  ?
+                  <View style={styles.listProdutContainer}>
+                    <View style={styles.sellPriceContainer}>
+                      <CristaliInputMoney
+                      type={'money'}
+                      key={item.id}
+                      value={item.value}
+                      productInsert
+                      editable={false}
+                      />
+                    </View>
+                    <View style={styles.productTitleContainer}>
+                      <CristaliInput 
+                        value={item.title}
+                        onChangeText={e => handleTitleChange(e, item.id)}
+                        placeholder="Nome..."
+                        clientInput
+                      />
+                    </View>
+                  </View>
+                :   
+
                 <CristaliInputMoney
                   type={'money'}
                   key={item.id}
@@ -258,13 +287,22 @@ export function NewSale(){
                   placeholder='Insira o Valor do Produto'
                   keyboardType='number-pad'
                 />
+                }
+
               </View>
-              <TouchableOpacity
-                style={[styles.listButton, {backgroundColor: theme.colors.Success}]}
-                onPress={() => handleAdd(index, item.value)}
-              >
-                <AntDesign name="plus" size={24} color="white" />
-              </TouchableOpacity>
+
+              {index <= piece -1 ?
+                <View />
+              :
+                <TouchableOpacity
+                  style={[styles.listButton, {backgroundColor: theme.colors.Success}]}
+                  onPress={() => handleAdd(index, item.value)}
+                >
+                  <AntDesign name="plus" size={24} color="white" />
+                </TouchableOpacity>
+              }
+
+
               {list.length > 1 && (
                 <TouchableOpacity
                   style={[styles.listButton, {backgroundColor: theme.colors.Cancel}]}
@@ -273,6 +311,7 @@ export function NewSale(){
                   <AntDesign name="minus" size={24} color="black" />
                 </TouchableOpacity>
               )}
+
             </View>
           ))}
         </View>

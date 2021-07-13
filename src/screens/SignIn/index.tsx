@@ -29,6 +29,7 @@ export function SignIn(){
   }
 
   function handleEnterApp(){
+    // API
     navigation.navigate('Home',{
       username: login
     });

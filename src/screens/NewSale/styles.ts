@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   title: {
     fontFamily: theme.fonts.heading,
     color: theme.colors.title,
-    fontSize: 24,
+    fontSize: 20,
   },
   clientData: {
     marginTop: 24
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   inputTextRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15
+    marginBottom: 10
   },
   inputTextCol: {
 
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.text,
     fontSize: 10,
     color: theme.colors.text,
-    paddingTop: 5
+    paddingTop: 1
   },
   subtitle: {
     fontFamily: theme.fonts.heading,
@@ -57,7 +57,8 @@ export const styles = StyleSheet.create({
   },
   orderRow: {
     flexDirection: 'row',
-    marginBottom: 28
+    marginTop: Dimensions.get('window').height * 0.02,
+    marginBottom: Dimensions.get('window').height * 0.03
   },
   orderCol: {
     width: '50%',
@@ -83,9 +84,24 @@ export const styles = StyleSheet.create({
   },
   list: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: Dimensions.get('window').height * .015
+  },
+  listProdutContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  sellPriceContainer: {
+
+  },
+  productTitleContainer: {
+    width: '50%'
+  },
+  listProductTitle: {
+    fontFamily: theme.fonts.heading,
+    color: theme.colors.title
   },
   listButton: {
     padding: 10,
