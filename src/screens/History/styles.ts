@@ -15,16 +15,31 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginBottom: Dimensions.get('window').height *.03,
   },
   title: {
     fontFamily: theme.fonts.heading,
     color: theme.colors.title,
     fontSize: 24,
+    paddingRight: 15
   },
   calendar: {
-    marginRight: 24
+    marginRight: 10
+  },
+  datepickedContainer: {
+    justifyContent: 'flex-start',
+    lineHeight: 3
+  },
+  datepickedTitle: {
+    fontFamily: theme.fonts.heading,
+    color: theme.colors.title
+  },
+  datepicked: {
+    alignItems: 'center',
+    marginRight: 20,
+    fontFamily: theme.fonts.text,
+    color: theme.colors.text
   },
   subtitleContainer: {
     flexDirection: 'row',

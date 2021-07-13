@@ -113,6 +113,7 @@ export function PagSeguroScreen(){
             <CristaliInput 
               value={telephone}
               onChangeText={setTelephone}
+              keyboardType='phone-pad'
             />
           </View>
 
@@ -133,6 +134,7 @@ export function PagSeguroScreen(){
               <CristaliInput 
                 value={cardNumber}
                 onChangeText={setCardNumber}
+                keyboardType='number-pad'
               />
             </View>
             <View style={styles.inputContainer}>
@@ -152,6 +154,7 @@ export function PagSeguroScreen(){
                     maxLength={5}
                     value={expirate}
                     onChangeText={setExpirate}
+                    keyboardType='numeric'
                   />
                 </View>
                 <View style={styles.codeCol}>

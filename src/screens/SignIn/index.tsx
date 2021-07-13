@@ -137,6 +137,7 @@ export function SignIn(){
                 peachpuff
                 value={password}
                 onChangeText={setPassword}
+                secureTextEntry={true}
               />
             </View>
           </View>
