@@ -13,6 +13,8 @@ import { MoneyScreen } from '../screens/MoneyScreen';
 import { PagSeguroScreen } from '../screens/PagSeguroScreen';
 import { Final } from '../screens/Final';
 
+import { TelaTeste } from '../screens/TelaTeste';
+
 const { Navigator, Screen } = createStackNavigator();
 
 export function AppRoutes(){
@@ -30,6 +32,7 @@ export function AppRoutes(){
       <Screen name="Checkout" component={Checkout} />
       <Screen name="Money" component={MoneyScreen} />
       <Screen name="PagSeguro" component={PagSeguroScreen} />
+      <Screen name="TelaTeste" component={TelaTeste} />
       <Screen name="Final" component={Final} />
     </Navigator>
   );

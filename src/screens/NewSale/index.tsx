@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from "react";
-import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert, TextInput } from "react-native";
 import { useNavigation, useRoute, StackActions } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
 
@@ -35,8 +35,8 @@ export function NewSale(){
   const itemParams = route.params as TodoItem;
 
   const [username, setUsername] = useState('');
-
   const [loading, setLoading] = useState(true);
+
   const [client, setClient] = useState('');
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
@@ -170,6 +170,9 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={client}
+                autoCorrect={false}
+                returnKeyType='done'
+                autoCapitalize='words'
               />
             </View>
 
@@ -189,6 +192,9 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={telephone}
+                autoCorrect={false}
+                keyboardType='phone-pad'
+                returnKeyType='done'
               />
             </View>
 
@@ -208,6 +214,10 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={email}
+                autoCorrect={false}
+                keyboardType='email-address'
+                returnKeyType='done'
+                autoCapitalize='none'
               />
             </View>
 
@@ -231,6 +241,7 @@ export function NewSale(){
                 autoCorrect={false}
                 autoCapitalize="none"
                 value={notes}
+                returnKeyType='done'
               />
             </View>
           </View>
@@ -249,6 +260,8 @@ export function NewSale(){
               <CristaliInput 
                 textAlign='center'
                 value={piece.toString()}
+                editable={false}
+                autoCorrect={false}
               />
             </View>
             <View style={styles.orderCol}>
@@ -257,6 +270,8 @@ export function NewSale(){
                 type={'money'}
                 textAlign='center'
                 value={sellPrice.toString()}
+                editable={false}
+                autoCorrect={false}
               />
             </View>
           </View>
@@ -275,7 +290,6 @@ export function NewSale(){
                 key={item.id}
                 style={{width: Dimensions.get('window').width *.6}}
               >
-                
                 {index <= piece -1
                   ?
                   <View style={styles.listProdutContainer}>
@@ -286,6 +300,7 @@ export function NewSale(){
                       value={item.value}
                       productInsert
                       editable={false}
+                      autoCorrect={false}
                       />
                     </View>
                     <View style={styles.productTitleContainer}>
@@ -294,23 +309,22 @@ export function NewSale(){
                         onChangeText={e => handleTitleChange(e, item.id)}
                         placeholder="Produto..."
                         clientInput
+                        autoCorrect={false}
                       />
                     </View>
                   </View>
-                :   
-
-                <CristaliInputMoney
-                  type={'money'}
-                  key={item.id}
-                  value={item.value}
-                  onChangeText={e => handleChange(e, item.id)}
-                  placeholder='Insira o Valor do Produto'
-                  keyboardType='number-pad'
-                />
+                  :
+                  <CristaliInputMoney
+                    type={'money'}
+                    key={item.id}
+                    value={item.value}
+                    onChangeText={e => handleChange(e, item.id)}
+                    placeholder='Insira o Valor do Produto'
+                    keyboardType='numeric'
+                    autoCorrect={false}
+                  />
                 }
-
               </View>
-
               {index <= piece -1 ?
                 <View />
               :
@@ -321,8 +335,6 @@ export function NewSale(){
                   <AntDesign name="plus" size={24} color="white" />
                 </TouchableOpacity>
               }
-
-
               {list.length > 1 && (
                 <TouchableOpacity
                   style={[styles.listButton, {backgroundColor: theme.colors.Cancel}]}
@@ -331,7 +343,6 @@ export function NewSale(){
                   <AntDesign name="minus" size={24} color="black" />
                 </TouchableOpacity>
               )}
-
             </View>
           ))}
         </View>

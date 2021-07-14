@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StatusBar, Image, Alert } from 'react-native';
 import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
+import { pgTESTapi } from '../../services/pgapi';
+import { token } from '../../services/token.json';
+
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
@@ -23,24 +26,24 @@ export function PagSeguroScreen(){
   const [username, setUsername] = useState('');
 
   const [loading, setLoading] = useState(true);
-  const [client, setClient] = useState('');
   const [telephone, setTelephone] = useState('');
   const [notes, setNotes] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
   const [email, setEmail] = useState('');
 
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
+
   const [expirate, setExpirate] = useState('');
+  const [expirateMonth, setExpirateMonth] = useState('');
+  const [expirateYear, setExpirateYear] = useState('');
+
   const [code, setCode] = useState('');
 
   useEffect(() => {
     if(orderParams){
-      setClient(orderParams.client);
       setTelephone(orderParams.telephone);
       setEmail(orderParams.email);
       setNotes(orderParams.notes);
-      setTotalPrice(orderParams.price);
     }
     if(userParams){
       setUsername(userParams.username);
@@ -54,12 +57,19 @@ export function PagSeguroScreen(){
     setLoading(false);
   },[orderParams]);
 
+  async function handleVerify(){
+    alert('Concluído');
+  }
+
   function Validate(){
     if(cardName!= '' && cardName != undefined){
       if(cardNumber != '' && cardNumber != undefined){
         if(expirate != '' && expirate != undefined){
+          setExpirateMonth(expirate.split('/')[0]);
+          setExpirateYear(expirate.split('/')[1]);
           if(code != '' && code != undefined){
             handleConcludeSale();
+            //handleVerify()
           }else{
             alert('Insira do Código de Verificação do Cartão de Crédito');
           }
@@ -75,7 +85,59 @@ export function PagSeguroScreen(){
   }
 
   function handleConcludeSale(){
-    navigation.setParams({orderParams: null});
+    /*navigation.navigate('TelaTeste',{
+      reference_id: 'ex-00001',
+      description: orderParams.notes,
+      value: orderParams.price,
+      currency: 'BRL',
+      type: 'CREDIT_CARD',
+      installments: 1,
+      capture: false,
+      number: cardNumber,
+      exp_month: expirateMonth,
+      exp_year: expirateYear,
+      security_code: code,
+      name: cardName,
+      notification_urls: 'https://yourserver.com/nas_ecommerce/277be731-3b7c-4dac-8c4e-4c3f4a1fdc46/'
+    });*/
+    pgTESTapi.post('charges',{
+      reference_id: 'ex-00001',
+      description: notes,
+      amount: {
+        value: orderParams.price,
+        currency: 'BRL'
+      },
+      payment_method: {
+        type: 'CREDIT_CARD',
+        installments: 1,
+        capture: false,
+        card: {
+          number: cardNumber,
+          exp_month: expirateMonth,
+          exp_year: expirateYear,
+          security_code: code,
+          holder: {
+            name: cardName
+          }
+        }
+      },
+      notification_urls: [
+        'https://yourserver.com/nas_ecommerce/277be731-3b7c-4dac-8c4e-4c3f4a1fdc46/'
+      ]
+    },{
+      headers: {
+        'Authorization': {token},
+        'x-api-version': '4.0',
+        ['Content-Type']: 'application/json'
+      }
+    }).then(res => {
+      navigation.navigate('Final',{
+        res
+      })
+    }).catch(err => {
+      Alert.alert(err);
+    });
+  navigation.setParams({orderParams: null});
     navigation.navigate('Final',{
       username
     });
@@ -106,7 +168,25 @@ export function PagSeguroScreen(){
             <CristaliInput 
               value={email}
               onChangeText={setEmail}
+              autoCapitalize='none'
+              autoCompleteType='off'
+              autoCorrect={false}
+              keyboardType='email-address'
+            />            
+            <CristaliInput 
+            value={expirateMonth}
+            autoCapitalize='none'
+            autoCompleteType='off'
+            autoCorrect={false}
+            keyboardType='email-address'
             />
+            <CristaliInput 
+            value={expirateYear}
+            autoCapitalize='none'
+            autoCompleteType='off'
+            autoCorrect={false}
+            keyboardType='email-address'
+          />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputText}>Celular do(a) Cliente</Text>
@@ -151,10 +231,10 @@ export function PagSeguroScreen(){
                   <Text style={styles.inputText}>Validade</Text>
                   <CristaliInput
                     textAlign='center'
-                    maxLength={5}
+                    maxLength={7}
                     value={expirate}
                     onChangeText={setExpirate}
-                    keyboardType='numeric'
+                    keyboardType='numbers-and-punctuation'
                   />
                 </View>
                 <View style={styles.codeCol}>

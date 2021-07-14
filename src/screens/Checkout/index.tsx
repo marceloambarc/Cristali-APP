@@ -64,7 +64,7 @@ export function Checkout(){
           telephone,
           email,
           notes,
-          price: totalPrice.toString()
+          price: totalPrice
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{

@@ -3,10 +3,15 @@ import { TextInput, TextInputProps } from "react-native";
 
 import { styles } from './styles';
 
-export function TextArea({ ...rest } : TextInputProps){
+interface TextAreaProps extends TextInputProps{
+  ref?: React.RefObject<any>;
+}
+
+export function TextArea({ ref, ...rest } : TextAreaProps){
   return (
     <TextInput 
       style={styles.container}
+      ref={ref}
       {...rest}
     />
   );
