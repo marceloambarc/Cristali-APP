@@ -42,11 +42,13 @@ function AuthProvider({ children } : AuthProps){
   },[]);
 
   async function signIn(){
-    const response = await auth.signIn();
+    setLoading(true);
+    const response = await auth.signIn(); //api
     setUser(response.user);
     //api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
     await AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.user));
     await AsyncStorage.setItem('@CRISTALIAuth:token', response.token);
+    setLoading(false);
   }
 
   async function signOut(){
