@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { SignIn } from '../screens/SignIn';
 import { Home } from '../screens/Home';
 import { History } from '../screens/History';
 import { SavedSale } from '../screens/SavedSale';
@@ -15,25 +14,24 @@ import { Final } from '../screens/Final';
 
 import { TelaTeste } from '../screens/TelaTeste';
 
-const { Navigator, Screen } = createStackNavigator();
+const AppStack = createStackNavigator();
 
 export function AppRoutes(){
   return(
-    <Navigator
+    <AppStack.Navigator
       headerMode="none"
     >
-      <Screen name="SignIn" component={SignIn} />
-      <Screen name="Home" component={Home} />
-      <Screen name="History" component={History} />
-      <Screen name="SavedSale" component={SavedSale} />
-      <Screen name="NewSale" component={NewSale} />
-      <Screen name="Client" component={Client} />
-      <Screen name="EditProduct" component={EditProduct} />
-      <Screen name="Checkout" component={Checkout} />
-      <Screen name="Money" component={MoneyScreen} />
-      <Screen name="PagSeguro" component={PagSeguroScreen} />
-      <Screen name="TelaTeste" component={TelaTeste} />
-      <Screen name="Final" component={Final} />
-    </Navigator>
+      <AppStack.Screen name="Home" component={Home} />
+      <AppStack.Screen name="History" component={History} />
+      <AppStack.Screen name="SavedSale" component={SavedSale} />
+      <AppStack.Screen name="NewSale" component={NewSale} />
+      <AppStack.Screen name="Client" component={Client} />
+      <AppStack.Screen name="EditProduct" component={EditProduct} />
+      <AppStack.Screen name="Checkout" component={Checkout} />
+      <AppStack.Screen name="Money" component={MoneyScreen} />
+      <AppStack.Screen name="PagSeguro" component={PagSeguroScreen} />
+      <AppStack.Screen name="TelaTeste" component={TelaTeste} />
+      <AppStack.Screen name="Final" component={Final} />
+    </AppStack.Navigator>
   );
 }

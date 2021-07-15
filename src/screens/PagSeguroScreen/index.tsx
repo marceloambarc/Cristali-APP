@@ -102,7 +102,7 @@ export function PagSeguroScreen(){
     });*/
     pgTESTapi.post('charges',{
       reference_id: 'ex-00001',
-      description: notes,
+      description: orderParams.notes,
       amount: {
         value: orderParams.price,
         currency: 'BRL'
@@ -122,25 +122,17 @@ export function PagSeguroScreen(){
         }
       },
       notification_urls: [
-        'https://yourserver.com/nas_ecommerce/277be731-3b7c-4dac-8c4e-4c3f4a1fdc46/'
+        "https://yourserver.com/nas_ecommerce/277be731-3b7c-4dac-8c4e-4c3f4a1fdc46/"
       ]
-    },{
-      headers: {
-        'Authorization': {token},
-        'x-api-version': '4.0',
-        ['Content-Type']: 'application/json'
-      }
     }).then(res => {
-      navigation.navigate('Final',{
-        res
-      })
+      console.warn([res.status, res.data]);
     }).catch(err => {
-      Alert.alert(err);
+      console.warn(err);
     });
-  navigation.setParams({orderParams: null});
+    /*navigation.setParams({orderParams: null});
     navigation.navigate('Final',{
       username
-    });
+    });*/
   }
 
   return (
