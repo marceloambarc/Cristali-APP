@@ -2,18 +2,18 @@
   "type": "mysql",
   "host": "localhost",
   "port": 3306,
-  "username": "test",
-  "password": "test",
-  "database": "test",
+  "username": "root",
+  "password": "@Habil!Info#",
+  "database": "cristalialpha",
   "synchronize": true,
   "logging": false,
   "entities": [
-     "src/models/*.ts"
+     "./src/models/*.ts"
   ],
   "migrations": [
-     "src/database/migration/*.ts"
+     "./src/database/migration/*.ts"
   ],
   "subscribers": [
-     "src/subscriber/**/*.ts"
+     "./src/subscriber/**/*.ts"
   ]
 }

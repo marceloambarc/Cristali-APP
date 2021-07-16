@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StatusBar, Image, Alert } from 'react-native';
 import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
-import { pgTESTapi } from '../../services/pgapi';
-import { token } from '../../services/token.json';
+import { pgapi } from '../../services/pgapi';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 import { OrderProps } from '../../components/Order';
-import { UserProps } from '../Home';
 
 import { Header } from '../../components/Header';
 import { CristaliInput } from '../../components/CristaliInput';
@@ -21,7 +19,6 @@ export function PagSeguroScreen(){
   const navigation = useNavigation();
   const route = useRoute();
   const orderParams = route.params as OrderProps;
-  const userParams = route.params as UserProps;
 
   const [username, setUsername] = useState('');
 
