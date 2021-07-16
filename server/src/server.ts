@@ -1,15 +1,15 @@
 import express from 'express'
 import cors from 'cors';
-import mongoose from 'mongoose';
+
+import './database/connection';
+
+import routes from './routes';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-app.get('/',(req,res)=>{
-  res.send('Hello World!');
-});
+app.use(routes);
 
 app.listen(3333,() => {
   console.log('Rodando.')
