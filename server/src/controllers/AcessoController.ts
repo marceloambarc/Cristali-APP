@@ -18,14 +18,24 @@ export default {
     return response.json(acesso_view.renderMany(acessos));
   },
 
-  async show(request: Request, response: Response) {
-    const { id } = request.params;
+  async login(request: Request, response: Response){
+    const { cgce, senha } = request.body;
 
     const acessosRepository = getRepository(Acesso);
 
-    const acesso = await acessosRepository.findOneOrFail(id);
+    const acesso = await acessosRepository.findOne({"cgce": cgce});
 
-    return response.json(acessoView.render(acesso));
+    if(acesso === undefined){
+      return response.status(403).json({"erro": "Usuário não cadastrado"});
+    }else{
+      const isPasswordRight = await bcrypt.compare(senha, acesso.senha);
+
+      if(!isPasswordRight){
+        return response.status(403).json({"Erro": "Senha Incorreta"});
+      }else{
+        return response.status(200).json(acessoView.render(acesso));
+      }
+    }
   },
 
   async create(request: Request, response: Response) {

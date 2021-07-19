@@ -8,6 +8,7 @@ const routes = Router();
 routes.post('/token', TokenController.create);
 routes.get('/token', TokenController.index);
 
+routes.post('/login', AcessoController.login);
 routes.post('/acesso', AcessoController.create);
 routes.get('/acesso', AcessoController.index);
 
