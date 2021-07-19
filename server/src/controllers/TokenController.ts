@@ -38,8 +38,6 @@ export default {
         ]
       });
   
-      console.log(existToken);
-  
       if(!existToken && existToken !== ''){
         const data = {
           token,

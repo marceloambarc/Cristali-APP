@@ -1,4 +1,3 @@
-  
 import Token from '../models/Token';
 
 export default {
