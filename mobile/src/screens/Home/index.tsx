@@ -43,7 +43,7 @@ export function Home(){
 
 
         <View style={styles.banner}>
-          <Text style={styles.username}>{ user?.name }</Text>
+          <Text style={styles.username}>{ user?.nomecli }</Text>
         </View>
 
         <View style={styles.painel}>

@@ -12,11 +12,11 @@ import { theme } from '../../global/styles';
 
 export function SignIn(){
   const { signIn } = useAuth();
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [cgce, setCgce] = useState('');
+  const [senha, setPassword] = useState('');
 
   function handleSignIn(){
-    signIn();
+    signIn({cgce, senha});
   }
   
     return (
@@ -37,9 +37,9 @@ export function SignIn(){
               <Text style={styles.cristaliInputText}>USUÁRIO</Text>
               <CristaliInput 
                 textAlign='center'
-                value={'hhhh'}
+                value={cgce}
                 peachpuff
-                onChangeText={setLogin}
+                onChangeText={setCgce}
               />
             </View>
             <View style={styles.credentialsRow}>
@@ -47,7 +47,7 @@ export function SignIn(){
               <CristaliInput 
                 textAlign='center'
                 peachpuff
-                value={password}
+                value={senha}
                 onChangeText={setPassword}
                 secureTextEntry={true}
               />

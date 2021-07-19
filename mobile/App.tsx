@@ -7,7 +7,7 @@ import AppLoading from 'expo-app-loading';
 import { Nunito_800ExtraBold, Nunito_600SemiBold } from '@expo-google-fonts/nunito';
 import { WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 
-import { deviceToken } from './src/services/token';
+import { api } from './src/services/api';
 import { AuthProvider } from './src/hooks/auth';
 
 import { Background } from './src/components/Background';
@@ -70,7 +70,7 @@ export default function App() {
   }
 
   async function sendToken(token: string){
-    deviceToken.post('token',{
+    api.post('token',{
       token
     }).then(() => {
       setLoading(false);

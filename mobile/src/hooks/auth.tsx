@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import * as auth from '../services/auth'
+import { api } from '../services/api';
 
 export interface UserProps {
-  name: string;
-  email: string;
+  cgce: string;
+  senha: string;
+  nomecli?: string;
 }
 
 interface AuthProps {
@@ -16,7 +18,7 @@ interface AuthContextData {
   signed: boolean;
   user: UserProps | null;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn({cgce, senha} : UserProps): Promise<void>;
   signOut(): void;
 }
 
@@ -31,7 +33,6 @@ function AuthProvider({ children } : AuthProps){
       const storagedUser = await AsyncStorage.getItem('@CRISTALIAuth:user');
       const storagedToken = await AsyncStorage.getItem('@CRISTALIAuth:token');
       if(storagedUser && storagedToken){
-        //api.defaults.headers['Authorization'] = `${storagedToken}`;
         setUser(JSON.parse(storagedUser));
         setLoading(false);
       }else{
@@ -41,13 +42,21 @@ function AuthProvider({ children } : AuthProps){
     loadStoragedData();
   },[]);
 
-  async function signIn(){
+  async function signIn({cgce, senha}: UserProps){
     setLoading(true);
-    const response = await auth.signIn(); //api
-    setUser(response.user);
-    //api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
-    await AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.user));
-    await AsyncStorage.setItem('@CRISTALIAuth:token', response.token);
+    api.post('/login',{
+      cgce,
+      senha
+    }).then(response => {
+      setUser(response.data);
+      AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.data));
+      AsyncStorage.setItem('@CRISTALIAuth:token', response.data.ccli);
+    }).catch(err => {
+      Alert.alert(
+        'Ops!',
+        err
+      );
+    })
     setLoading(false);
   }
 
