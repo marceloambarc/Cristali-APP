@@ -6,7 +6,6 @@ import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 import { OrderProps } from "../../components/Order";
-import { UserProps } from '../Home';
 
 import { Header } from '../../components/Header';
 import { Divider } from '../../components/Divider';
@@ -19,8 +18,6 @@ export function Checkout(){
   const [moneyPressed, setMoneyPressed] = useState(false);
   const [alterPressed, setAlterPressed] = useState(false);
 
-  const [username, setUsername] = useState('');
-
   const [loading, setLoading] = useState(true);
   const [client, setClient] = useState('');
   const [telephone, setTelephone] = useState('');
@@ -31,7 +28,6 @@ export function Checkout(){
   const navigation = useNavigation()
   const route = useRoute();
   const orderParams = route.params as OrderProps;
-  const userParams = route.params as UserProps
 
   useEffect(() => {
     if(orderParams){
@@ -41,17 +37,8 @@ export function Checkout(){
       setNotes(orderParams.notes);
       setTotalPrice(orderParams.price);
     }
-    if(userParams){
-      setUsername(userParams.username);
-    }else{
-      Alert.alert(
-        'Ops!',
-        'Você Não pode Acessar, não está Logado(a)'
-      )
-      navigation.dispatch(StackActions.push('SignIn'));
-    }
     setLoading(false);
-  },[orderParams, userParams]);
+  },[orderParams]);
 
   function Validate(){
     if(!pagSeguroPressed && !moneyPressed && !alterPressed){
@@ -59,7 +46,6 @@ export function Checkout(){
     }else{
       if(pagSeguroPressed){
         navigation.navigate('PagSeguro',{
-          username,
           client,
           telephone,
           email,
@@ -68,12 +54,10 @@ export function Checkout(){
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{
-          username,
           isMoney: false
         });
       }else{
         navigation.navigate('Money',{
-          username,
           isMoney: true
         })
       }

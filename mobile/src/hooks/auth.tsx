@@ -5,9 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../services/api';
 
 export interface UserProps {
-  cgce: string;
+  id?: number;
+  ativo?: number;
   senha: string;
+  ccli?: string;
   nomecli?: string;
+  cgce: string;
 }
 
 interface AuthProps {
@@ -48,9 +51,9 @@ function AuthProvider({ children } : AuthProps){
       cgce,
       senha
     }).then(response => {
-      setUser(response.data);
-      AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.data));
-      AsyncStorage.setItem('@CRISTALIAuth:token', response.data.ccli);
+      setUser(response.data.user);
+      AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.data.user));
+      AsyncStorage.setItem('@CRISTALIAuth:token', response.data.token);
     }).catch(err => {
       Alert.alert(
         'Ops!',

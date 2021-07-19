@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-import { UserProps } from '../Home';
+import { useAuth } from '../../hooks/auth';
 
 import { CristaliButton } from '../../components/CristaliButton';
 import { CristaliInput } from '../../components/CristaliInput';
@@ -15,26 +14,22 @@ interface MoneyProps {
 }
 
 export function MoneyScreen(){
+  const { user } = useAuth();
   const navigation = useNavigation();
   const route = useRoute();
   const moneyParams = route.params as MoneyProps;
-  const userParams = route.params as UserProps;
-
-  const username = userParams.username;
   const isMoney = moneyParams.isMoney;
 
   function handleFinal(){
     navigation.setParams({moneyParams: null});
-    navigation.navigate('Final',{
-      username
-    });
+    navigation.navigate('Final');
   }
 
   return (
       <View style={styles.container}>
 
         <View style={styles.banner}>
-          <Text style={styles.title}>Atenção {username}</Text>
+          <Text style={styles.title}>Atenção {user?.nomecli}</Text>
           <Text style={styles.text}>
             Você está recebendo com outra forma de 
             pagamento sem ser pelo PAGSEGURO, ao 

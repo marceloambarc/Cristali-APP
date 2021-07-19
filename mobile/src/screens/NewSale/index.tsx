@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert, TextInput } from "react-native";
+import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert, TextInput, ActivityIndicator } from "react-native";
 import { useNavigation, useRoute, StackActions } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
+import { useAuth } from "../../hooks/auth";
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
 import { OrderProps } from "../../components/Order";
-import { UserProps } from "../Home";
+import { UserProps } from "../../hooks/auth";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
@@ -27,6 +28,7 @@ interface TodoItem {
 export let itemCounter = 1;
 
 export function NewSale(){
+  const { user } = useAuth();
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -34,7 +36,6 @@ export function NewSale(){
   const userParams = route.params as UserProps;
   const itemParams = route.params as TodoItem;
 
-  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
 
   const [client, setClient] = useState('');
@@ -54,15 +55,6 @@ export function NewSale(){
       setEmail(orderParams.email);
       setNotes(orderParams.notes);
       setTotalPrice(orderParams.price);
-    }
-    if(userParams){
-      setUsername(userParams.username);
-    }else{
-      Alert.alert(
-        'Ops!',
-        'Você Não pode Acessar, não está Logado(a)'
-      )
-      navigation.dispatch(StackActions.push('SignIn'));
     }
     if(itemParams.clear){
       setList([{id: 0, value: '', title: ''}]);
@@ -104,7 +96,6 @@ export function NewSale(){
       alert('Insira um Produto.');
     }else{
       navigation.navigate('Checkout',{
-        username,
         client,
         telephone,
         email,
@@ -116,8 +107,8 @@ export function NewSale(){
 
   if(loading){
     return(
-      <View>
-        <Text>Hello World</Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size='large' />
       </View>
     );
   }

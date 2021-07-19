@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StatusBar, Dimensions, Platform } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Dimensions, Platform, ActivityIndicator } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { useAuth } from '../../hooks/auth';
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
@@ -15,6 +16,7 @@ import { Header } from "../../components/Header";
 import { DATA } from "../../utils/data"; 
 
 export function History(){
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [historyCount, setHistoryCount] = useState(0);
   const [total, setTotal] = useState('0');
@@ -78,8 +80,8 @@ export function History(){
 
   if(loading){
     return(
-      <View>
-        <Text>Carregando</Text>
+      <View style={{justifyContent: 'center', alignContent: 'center', flex: 1}}>
+        <ActivityIndicator size="large" color={`${theme.colors.primary}`} />
       </View>
     );
   }else{

@@ -20,8 +20,6 @@ export function PagSeguroScreen(){
   const route = useRoute();
   const orderParams = route.params as OrderProps;
 
-  const [username, setUsername] = useState('');
-
   const [loading, setLoading] = useState(true);
   const [telephone, setTelephone] = useState('');
   const [notes, setNotes] = useState('');
@@ -42,21 +40,8 @@ export function PagSeguroScreen(){
       setEmail(orderParams.email);
       setNotes(orderParams.notes);
     }
-    if(userParams){
-      setUsername(userParams.username);
-    }else{
-      Alert.alert(
-        'Ops!',
-        'Você Não pode Acessar, não está Logado(a)'
-      )
-      navigation.dispatch(StackActions.push('SignIn'));
-    }
     setLoading(false);
   },[orderParams]);
-
-  async function handleVerify(){
-    alert('Concluído');
-  }
 
   function Validate(){
     if(cardName!= '' && cardName != undefined){
@@ -97,7 +82,7 @@ export function PagSeguroScreen(){
       name: cardName,
       notification_urls: 'https://yourserver.com/nas_ecommerce/277be731-3b7c-4dac-8c4e-4c3f4a1fdc46/'
     });*/
-    pgTESTapi.post('charges',{
+    pgapi.post('charges',{
       reference_id: 'ex-00001',
       description: orderParams.notes,
       amount: {
