@@ -25,39 +25,48 @@ export default {
   },
 
   async create(request: Request, response: Response) {
-
-    const {
-      token,
-      createAt,
-      updateAt,
-    } = request.body;
-
-    const tokensRepository = getRepository(Token);
-
-    const data = {
-      token,
-      createAt,
-      updateAt
-    };
-
-    const schema = Yup.object().shape({
-        token: Yup.string().required(),
-        createAt: Yup.date().default(function (){
-          return new Date();
-        }),
-        updateAt: Yup.date().default(function (){
-          return new Date();
-        })
+    try {
+      const {
+        token
+      } = request.body;
+  
+      const tokensRepository = getRepository(Token);
+  
+      const existToken = await tokensRepository.findOne({ 
+        where: [
+          { token: token }
+        ]
       });
-
-    await schema.validate(data, {
-        abortEarly: false,
-    });
-
-    const tokenRepository = tokensRepository.create(data);
-
-    await tokensRepository.save(tokenRepository);
-
-    return response.status(201).json(tokenRepository);
-}
+  
+      console.log(existToken);
+  
+      if(!existToken && existToken !== ''){
+        const data = {
+          token,
+          createAt: new Date(),
+          updateAt: new Date()
+        };
+    
+        const schema = Yup.object().shape({
+            token: Yup.string().required(),
+            createAt: Yup.date().default(() => new Date()),
+            updateAt: Yup.date().default(() => new Date()),
+          });
+    
+        await schema.validate(data, {
+            abortEarly: false,
+        });
+    
+        const tokenRepository = tokensRepository.create(data);
+    
+        await tokensRepository.save(tokenRepository);
+    
+        return response.status(201).json(tokenRepository);
+      }else{
+        return response.status(409).json();
+      }
+    }catch(err){
+      return response.status(400).json();
+    }
+  }
 };
