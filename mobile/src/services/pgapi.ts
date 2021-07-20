@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { pagSeguroAPI ,token } from '../../credentials.json'
+import { pagSeguroAPI ,token } from '../../credentials';
 
 
 const pgapi = axios.create({

@@ -2,14 +2,13 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import acessoView from '../view/acesso_view';
 import * as Yup from 'yup';
 
 import { salt } from '../../credentials';
 import { JWTSecret } from '../../credentials';
 
 import Acesso from "../models/Acesso";
-import acesso_view from '../view/acesso_view';
+import acessoView from '../view/acesso_view';
 
 export default {
   async index(request: Request, response: Response) {
@@ -17,7 +16,7 @@ export default {
 
     const acessos = await acessosRepository.find();
 
-    return response.json(acesso_view.renderMany(acessos));
+    return response.json(acessoView.renderMany(acessos));
   },
 
   async login(request: Request, response: Response){
@@ -37,9 +36,9 @@ export default {
       }else{
         jwt.sign({cgce, id: acesso.id, ativo: acesso.ativo, nomeclie: acesso.nomecli}, JWTSecret, { expiresIn: '1h' }, (err, token) => {
           if(err){
-            return response.status(403).json({"Ops!": "A sua sessão Terminou, Faça o Login Novamente." });
+            return response.status(403).json({ "Ops!": "A sua sessão Terminou, Faça o Login Novamente." });
           }else{
-            return response.status(200).json({ "token": token, "user":acessoView.render(acesso) });
+            return response.status(200).json({ "token": token, "user": acessoView.render(acesso) });
           }
         })
         //return response.status(200).json(acessoView.render(acesso));
@@ -69,8 +68,6 @@ export default {
       if(existAcesso === undefined){
         const saltEncriypted = await bcrypt.genSalt(salt);
         const hash = await bcrypt.hash(senha, saltEncriypted);
-
-        console.log('awui1');
 
         const data = {
           ativo: 0,

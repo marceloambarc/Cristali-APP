@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import { Text, View, StatusBar, ActivityIndicator } from 'react-native';
 import { useAuth } from '../../hooks/auth';
 
 import { Background } from '../../components/Background';
@@ -11,7 +11,7 @@ import { styles } from './styles';
 import { theme } from '../../global/styles';
 
 export function SignIn(){
-  const { signIn } = useAuth();
+  const { loading, signIn } = useAuth();
   const [cgce, setCgce] = useState('');
   const [senha, setPassword] = useState('');
 
@@ -19,19 +19,26 @@ export function SignIn(){
     signIn({cgce, senha});
   }
   
+  if(loading){
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color={`${theme.colors.primary}`} />
+      </View>
+    );
+  }else{
     return (
       <Background>
         <View style={styles.container}>
-  
+    
           <StatusBar
             backgroundColor={theme.colors.input}
-            translucent={true}
+              translucent={true}
           />
-  
+    
           <Logo 
             subtext
           />
-  
+    
           <View style={styles.credentials}>
             <View style={styles.credentialsRow}>
               <Text style={styles.cristaliInputText}>USUÁRIO</Text>
@@ -53,16 +60,17 @@ export function SignIn(){
               />
             </View>
           </View>
-
-            <View style={styles.buttonContainer}>
-              <CristaliButton
+  
+          <View style={styles.buttonContainer}>
+            <CristaliButton
               color={`${theme.colors.Success}`}
               title='Entrar'
               onPress={handleSignIn}
-              />
-            </View>
-  
+            />
+          </View>
+    
         </View>
       </Background>
     );
   }
+}
