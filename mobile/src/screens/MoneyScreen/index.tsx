@@ -8,15 +8,19 @@ import { CristaliInput } from '../../components/CristaliInput';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
+import { api } from '../../services/api';
+import { CheckoutProps } from '../Checkout';
 
 interface MoneyProps {
   isMoney?: boolean
 }
 
 export function MoneyScreen(){
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const navigation = useNavigation();
+
   const route = useRoute();
+  const orderParams = route.params as CheckoutProps;
 
   const moneyParams = route.params as MoneyProps;
   const isMoney = moneyParams.isMoney;
@@ -24,11 +28,71 @@ export function MoneyScreen(){
   const [paymentMethod, setPaymentMethod] = useState('');
 
   function handleFinal(){
+    const notes = paymentMethod + ' '+ orderParams.notes;
     if(isMoney){
+      api.post('order',{
+        userId: user.id?.toString(),
+        token: token,
+        code: "ex_00001",
+        totalprice: orderParams.price,
+        notes: notes,
+        "items": [
+          {
+            itemname: "item1",
+            price: "101010",
+            quantity: 2
+          },
+          {
+            itemname: "item2",
+            price: "202020",
+            quantity: 1
+          }
+        ],
+        client: {
+          nomefinalcli: orderParams.client,
+          phone: orderParams.telephone,
+          email: orderParams.email,
+          notes: "Nota do cliente"
+        }
+      }).then(() => {
+        navigation.setParams({moneyParams: null});
+        navigation.navigate('Final');
+      }).catch(err => {
+        alert(err.message);
+      });
 
     }else{
-      navigation.setParams({moneyParams: null});
-      navigation.navigate('Final');
+      api.post('order',{
+        userId: user.id,
+        token: token,
+        code: "ex_00001",
+        totalprice: orderParams.price,
+        notes: orderParams.notes,
+        "items": [
+          {
+            itemname: "item1",
+            price: "101010",
+            quantity: 2
+          },
+          {
+            itemname: "item2",
+            price: "202020",
+            quantity: 1
+          }
+        ],
+        client: {
+          nomefinalcli: orderParams.client,
+          phone: orderParams.telephone,
+          email: orderParams.email,
+          notes: "Nota do cliente"
+        }
+      }).then(() => {
+        navigation.setParams({moneyParams: null});
+        navigation.navigate('Final');
+      }).catch(err => {
+        alert(err.message);
+      });
+
     }
   }
 

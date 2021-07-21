@@ -29,7 +29,9 @@ export default class Order {
     @Column()
     condition: number;
 
-    @ManyToOne(() => Client, client => client.orders)
+    @ManyToOne(() => Client, client => client.orders,{
+        cascade: true,
+    })
     @JoinColumn({ name: 'clientId' })
     client: Client;
     

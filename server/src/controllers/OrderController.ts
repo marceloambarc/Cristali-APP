@@ -69,8 +69,6 @@ export default {
         client,
         items
       };
-
-      console.log('Data Vefirificada', data);
   
       const schema = Yup.object().shape({
         userId: Yup.number().required(),
@@ -95,23 +93,15 @@ export default {
         )
       });
 
-      console.log('Schema Verificado');
-
       await schema.validate(data, {
         abortEarly: false,
       });
 
-      console.log('Validação');
-
       const orderRepository = ordersRepository.create(data);
 
-      console.log('Criação de Repositório');
-
-      await ordersRepository.save(orderRepository).then(() => {
-        return response.status(201).json(orderRepository);
-      }).catch(err => {
-        return response.status(400).json({"Erro": err});
-      });
+      await ordersRepository.save(orderRepository);
+    
+      return response.status(201).json(orderRepository);
     }catch(err){
       return response.status(400).json({ "erro":err });
     }

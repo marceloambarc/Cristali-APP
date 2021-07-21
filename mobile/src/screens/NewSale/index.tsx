@@ -31,7 +31,6 @@ export function NewSale(){
   const route = useRoute();
 
   const orderParams = route.params as OrderProps;
-  const itemParams = route.params as TodoItem;
 
   const [loading, setLoading] = useState(true);
 

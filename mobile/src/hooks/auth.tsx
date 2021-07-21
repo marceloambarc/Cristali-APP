@@ -20,6 +20,7 @@ interface AuthProps {
 interface AuthContextData {
   signed: boolean;
   user: UserProps;
+  token: string;
   loading: boolean;
   signIn({cgce, senha} : UserProps): Promise<void>;
   signOut: () => Promise<void>;
@@ -29,6 +30,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children } : AuthProps){
   const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function signIn({cgce, senha}: UserProps){
@@ -39,6 +41,7 @@ function AuthProvider({ children } : AuthProps){
     }).then(response => {
       AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.data.user));
       AsyncStorage.setItem('@CRISTALIAuth:token', response.data.token);
+      setToken(response.data.token)
       setUser(response.data.user);
       setLoading(false);
     }).catch(err => {
@@ -76,7 +79,7 @@ function AuthProvider({ children } : AuthProps){
   },[]);
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading }}>
+    <AuthContext.Provider value={{ signed: !!user, user, token, signIn, signOut, loading }}>
     { children }
     </AuthContext.Provider>
   );

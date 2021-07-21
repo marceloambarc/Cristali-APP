@@ -61,11 +61,23 @@ export function Checkout(){
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{
-          isMoney: false
+          isMoney: false,
+          notes,
+          price: totalPrice,
+          piece: totalPiece,
+          client,
+          telephone,
+          email,
         });
       }else{
         navigation.navigate('Money',{
-          isMoney: true
+          isMoney: true,
+          notes,
+          price: totalPrice,
+          piece: totalPiece,
+          client,
+          telephone,
+          email,
         })
       }
     }
