@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { Text, View, StatusBar, ActivityIndicator } from 'react-native';
+import { Text, View, StatusBar, ActivityIndicator, KeyboardAvoidingView, Platform, Alert, ScrollView } from 'react-native';
 import { useAuth } from '../../hooks/auth';
 
 import { Background } from '../../components/Background';
@@ -15,62 +15,76 @@ export function SignIn(){
   const [cgce, setCgce] = useState('');
   const [senha, setPassword] = useState('');
 
-  function handleSignIn(){
-    signIn({cgce, senha});
-  }
-  
-  if(loading){
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color={`${theme.colors.primary}`} />
-      </View>
-    );
-  }else{
-    return (
-      <Background>
-        <View style={styles.container}>
-    
-          <StatusBar
-            backgroundColor={theme.colors.input}
+  async function handleSignIn(){
+    try{
+      await signIn({cgce, senha})
+    }catch(err){
+      Alert.alert(err);
+    }
+  } 
+
+  return (
+    <KeyboardAvoidingView
+      style={{flexGrow: 1}}
+      keyboardVerticalOffset={(Platform.OS === 'ios')? 0 : 0}
+      contentContainerStyle={{backgroundColor: 'transparent'}}
+      behavior={ Platform.OS === 'ios'? 'padding' : undefined }
+    >
+      <ScrollView 
+        bounces= {false}
+        style={{flex: 1}}
+      >
+        <Background>
+          <View style={styles.container}>
+        
+            <StatusBar
+              backgroundColor={theme.colors.input}
               translucent={true}
-          />
-    
-          <Logo 
-            subtext
-          />
-    
-          <View style={styles.credentials}>
-            <View style={styles.credentialsRow}>
-              <Text style={styles.cristaliInputText}>USUÁRIO</Text>
-              <CristaliInput 
-                textAlign='center'
-                value={cgce}
-                peachpuff
-                onChangeText={setCgce}
-              />
-            </View>
-            <View style={styles.credentialsRow}>
-              <Text style={styles.cristaliInputText}>SENHA</Text>
-              <CristaliInput 
-                textAlign='center'
-                peachpuff
-                value={senha}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-              />
-            </View>
-          </View>
-  
-          <View style={styles.buttonContainer}>
-            <CristaliButton
-              color={`${theme.colors.Success}`}
-              title='Entrar'
-              onPress={handleSignIn}
             />
+        
+            <Logo 
+              subtext
+            />
+        
+            {
+              loading? <ActivityIndicator size='large' color={`${theme.colors.primary}`} />
+              :
+              <>
+                <View style={styles.credentials}>
+                  <View style={styles.credentialsRow}>
+                    <Text style={styles.cristaliInputText}>USUÁRIO</Text>
+                    <CristaliInput 
+                      textAlign='center'
+                      value={cgce}
+                      peachpuff
+                      onChangeText={setCgce}
+                    />
+                  </View>
+                  <View style={styles.credentialsRow}>
+                    <Text style={styles.cristaliInputText}>SENHA</Text>
+                    <CristaliInput 
+                      textAlign='center'
+                      peachpuff
+                      value={senha}
+                      onChangeText={setPassword}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+          
+                <View style={styles.buttonContainer}>
+                  <CristaliButton
+                    color={`${theme.colors.Success}`}
+                    title='Entrar'
+                    onPress={handleSignIn}
+                  />
+                </View>
+              </>
+            }
+        
           </View>
-    
-        </View>
-      </Background>
-    );
-  }
+        </Background>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }

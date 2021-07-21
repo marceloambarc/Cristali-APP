@@ -19,6 +19,7 @@ routes.delete('/order', OrderController.delete);
 routes.get('/acesso', AcessoController.index);
 routes.post('/login', AcessoController.login);
 routes.post('/acesso', AcessoController.create);
+routes.put('/acesso/:cgce', AcessoController.edit);
 
 
 export default routes;

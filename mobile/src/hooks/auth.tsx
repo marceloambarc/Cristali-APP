@@ -19,55 +19,61 @@ interface AuthProps {
 
 interface AuthContextData {
   signed: boolean;
-  user: UserProps | null;
+  user: UserProps;
   loading: boolean;
   signIn({cgce, senha} : UserProps): Promise<void>;
-  signOut(): void;
+  signOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 function AuthProvider({ children } : AuthProps){
-  const [user, setUser] = useState<UserProps | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadStoragedData(){
-      const storagedUser = await AsyncStorage.getItem('@CRISTALIAuth:user');
-      const storagedToken = await AsyncStorage.getItem('@CRISTALIAuth:token');
-      if(storagedUser && storagedToken){
-        setUser(JSON.parse(storagedUser));
-        setLoading(false);
-      }else{
-        setLoading(false);
-      }
-    }
-    loadStoragedData();
-  },[]);
+  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [loading, setLoading] = useState(false);
 
   async function signIn({cgce, senha}: UserProps){
     setLoading(true);
     api.post('/login',{
       cgce,
-      senha
+        senha
     }).then(response => {
-      setUser(response.data.user);
       AsyncStorage.setItem('@CRISTALIAuth:user', JSON.stringify(response.data.user));
       AsyncStorage.setItem('@CRISTALIAuth:token', response.data.token);
+      setUser(response.data.user);
+      setLoading(false);
     }).catch(err => {
-      Alert.alert(
-        'Ops!',
-        err
-      );
-    })
-    setLoading(false);
+      const errorstring = String(err);
+      const res = errorstring.replace(/\D/g,'');
+      if(res == '403'){
+        Alert.alert('Usuário não Cadastrado!');
+        setLoading(false);
+      }else if(res == '401'){
+        Alert.alert('Senha Incorreta.');
+        setLoading(false);
+      }else{
+        alert('Problema na conexão.');
+        setLoading(false);
+      }
+    });
   }
 
   async function signOut(){
-    AsyncStorage.clear().then(() => {
-      setUser(null);
-    });
+    setUser({} as UserProps);
+    await AsyncStorage.removeItem('@CRISTALIAuth:token');
+    await AsyncStorage.removeItem('@CRISTALIAuth:user');
   }
+
+  async function loadStoragedData(){
+    const storagedUser = await AsyncStorage.getItem('@CRISTALIAuth:user');
+    const storagedToken = await AsyncStorage.getItem('@CRISTALIAuth:token');
+    if(storagedUser && storagedToken){
+      api.defaults.headers.authorization = `Bearer ${storagedToken}`
+    }
+  }
+
+  useEffect(() => {
+    loadStoragedData();
+  },[]);
 
   return (
     <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading }}>

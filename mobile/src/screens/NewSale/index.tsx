@@ -8,7 +8,6 @@ import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
 import { OrderProps } from "../../components/Order";
-import { UserProps } from "../../hooks/auth";
 
 import { Divider } from "../../components/Divider";
 import { CristaliInput } from "../../components/CristaliInput";
@@ -20,9 +19,8 @@ import { SearchButton } from "../../components/SearchButton";
 
 interface TodoItem {
   id: number;
-  value: string;
   title: string;
-  clear?: boolean
+  value: string;
 }
 
 export let itemCounter = 1;
@@ -33,7 +31,6 @@ export function NewSale(){
   const route = useRoute();
 
   const orderParams = route.params as OrderProps;
-  const userParams = route.params as UserProps;
   const itemParams = route.params as TodoItem;
 
   const [loading, setLoading] = useState(true);
@@ -56,11 +53,9 @@ export function NewSale(){
       setNotes(orderParams.notes);
       setTotalPrice(orderParams.price);
     }
-    if(itemParams.clear){
-      setList([{id: 0, value: '', title: ''}]);
-    }
     setLoading(false);
-  },[orderParams, userParams]);
+    
+  },[orderParams]);
 
   const [list, setList] = useState<TodoItem[]>([{id: 0, value: '', title: ''}]);
 
@@ -100,6 +95,8 @@ export function NewSale(){
         telephone,
         email,
         notes,
+        piece,
+        list,
         price: sellPrice.toString()
       });
     }
@@ -108,7 +105,7 @@ export function NewSale(){
   if(loading){
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size='large' />
+        <ActivityIndicator size='large' color={`${theme.colors.primary}`} />
       </View>
     );
   }
@@ -161,6 +158,7 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={client}
+                onChangeText={setClient}
                 autoCorrect={false}
                 returnKeyType='done'
                 autoCapitalize='words'
@@ -183,6 +181,7 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={telephone}
+                onChangeText={setTelephone}
                 autoCorrect={false}
                 keyboardType='phone-pad'
                 returnKeyType='done'
@@ -205,6 +204,7 @@ export function NewSale(){
               <CristaliInput 
                 clientInput
                 value={email}
+                onChangeText={setEmail}
                 autoCorrect={false}
                 keyboardType='email-address'
                 returnKeyType='done'
@@ -232,12 +232,11 @@ export function NewSale(){
                 autoCorrect={false}
                 autoCapitalize="none"
                 value={notes}
+                onChangeText={setNotes}
                 returnKeyType='done'
               />
             </View>
           </View>
-
-
 
           <View style={[styles.titleContainer, {justifyContent: 'center', alignItems: 'center'}]}>
             <Text style={styles.title}>Produtos</Text>

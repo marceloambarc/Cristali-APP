@@ -13,6 +13,10 @@ import { CristaliButton } from '../../components/CristaliButton';
 import { CheckoutButton } from '../../components/CheckoutButton';
 import { CristaliInputMoney } from '../../components/CristaliInputMoney';
 
+export interface CheckoutProps extends OrderProps  {
+  piece: string;
+}
+
 export function Checkout(){
   const [pagSeguroPressed, setPagSeguroPressed] = useState(false);
   const [moneyPressed, setMoneyPressed] = useState(false);
@@ -24,10 +28,11 @@ export function Checkout(){
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
+  const [totalPiece, setTotalPiece] = useState('');
 
   const navigation = useNavigation()
   const route = useRoute();
-  const orderParams = route.params as OrderProps;
+  const orderParams = route.params as CheckoutProps;
 
   useEffect(() => {
     if(orderParams){
@@ -36,6 +41,7 @@ export function Checkout(){
       setEmail(orderParams.email);
       setNotes(orderParams.notes);
       setTotalPrice(orderParams.price);
+      setTotalPiece(orderParams.piece);
     }
     setLoading(false);
   },[orderParams]);
@@ -50,7 +56,8 @@ export function Checkout(){
           telephone,
           email,
           notes,
-          price: totalPrice
+          price: totalPrice,
+          piece: totalPiece
         });
       }else if(moneyPressed){
         navigation.navigate('Money',{
