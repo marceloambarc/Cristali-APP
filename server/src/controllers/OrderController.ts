@@ -21,19 +21,18 @@ export default {
   },
 
   async show(request: Request, response: Response) {
-    const { id } = request.params;
-    const searchId = parseInt(id);
-
-    const ordersRepository = getRepository(Order);
-
-    const orders = await ordersRepository.find({where: { userId: searchId }, relations: ['items']});
-
-    if(orders.length === 0){
-      return response.status(204).json({'Vazio': 'Nenhuma ordem inserida.'});
-    }else{
-      return response.json(orderView.renderMany(orders));
-    }
-    
+      const { id } = request.params;
+      const searchId = parseInt(id);
+  
+      const ordersRepository = getRepository(Order);
+  
+      const orders = await ordersRepository.find({where: { userId: searchId }, relations: ['items']});
+  
+      if(orders.length === 0){
+        return response.status(404).json({'Vazio': 'Nenhuma ordem com este Parametro.'});
+      }else{
+        return response.json(orderView.renderMany(orders));
+      }
   },
 
   async delete(request: Request, response: Response) {
@@ -42,6 +41,22 @@ export default {
     const order = await ordersRepository.delete({})
 
     return response.json(200);
+  },
+
+  async editCondition(request: Request, response: Response){
+    const { code, condition } = request.body;
+    const setCondition = parseInt(condition);
+
+    const ordersRepository = getRepository(Order);
+
+    const order = await ordersRepository.findOne({ where: { code: code } });
+    if(order?.id != undefined){
+      order.condition = setCondition;
+      await ordersRepository.save(order);
+      return response.status(204).json(order);
+    }else{
+      return response.json(404);
+    } 
   },
 
   async create(request: Request, response: Response) {
