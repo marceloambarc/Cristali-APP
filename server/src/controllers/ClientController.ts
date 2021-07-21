@@ -16,21 +16,21 @@ export default {
   },
 
   async show(request: Request, response: Response) {
-    try{
-      const { id } = request.params;
+    const { id } = request.params;
+    const searchId = parseInt(id);
 
-      const clientsRepository = getRepository(Client);
-
+    const clientsRepository = getRepository(Client);
     
-      const client = await clientsRepository.findOneOrFail(id, {
-        relations: ['orders']
-      }).then(() => {
-        return response.json(clientView.render(client));
-      }).catch(err => {
-        return response.status(404).json({"erro": err});
-      });
-    }catch(err){
-      return response.status(400).json({"erro": err});
-    }
+    clientsRepository.findOne({ id: searchId }, {
+      relations: ['orders']
+    }).then(res => {
+      if(res === undefined){
+        return response.status(404).json({"Erro": "NOT FOUND"});
+      }else{
+        return response.json(clientView.render(res));
+      }
+    }).catch(err => {
+      return response.status(400).json({"Erro": err});
+    });
   }
 }

@@ -11,8 +11,10 @@ routes.post('/token', TokenController.create);
 routes.get('/token', TokenController.index);
 
 routes.get('/client', ClientController.index);
+routes.get('/client/:id', ClientController.show);
 
 routes.get('/order', OrderController.index);
+routes.get('/order/:id', OrderController.show);
 routes.post('/order', OrderController.create);
 routes.delete('/order', OrderController.delete);
 
