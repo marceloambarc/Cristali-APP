@@ -10,7 +10,7 @@ export default {
     };
   },
 
-  renderMany(item: Item[]){
-    return item.map(item => this.render(item));
+  renderMany(items: Item[]){
+    return items.map(item => this.render(item));
   }
 }

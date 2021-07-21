@@ -6,17 +6,17 @@ export default {
   render(order: Order) {
     return {
       id: order.id,
+      userId: order.userId,
       token: order.token,
       code: order.code,
       timestamp: order.timestamp,
       totalprice: order.totalprice,
       notes: order.notes,
-      condition: order.conditon,
-      finalcli: clientView.render(order.client),
+      condition: order.condition,
       items: itemView.renderMany(order.items)
     };
   },
-
+  
   renderMany(order: Order[]){
     return order.map(order => this.render(order));
   }

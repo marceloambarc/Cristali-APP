@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from "typeorm";
 import Order from "./Order";
 
 @Entity()
@@ -11,7 +11,7 @@ export default class Client {
   nomefinalcli: string;
 
   @Column("nvarchar", { length: 14 })
-  phone: number;
+  phone: string;
 
   @Column("nvarchar", { length: 100 })
   email: string;
@@ -19,9 +19,10 @@ export default class Client {
   @Column("nvarchar", { length: 200 })
   notes: string;
 
-  @OneToMany(() => Order, order => order.client, {
+  @OneToMany(() => Order, order => order.client,{
     cascade: ['insert', 'update']
   })
+  @JoinColumn({ name: 'clientId' })
   orders: Order[];
 
 }

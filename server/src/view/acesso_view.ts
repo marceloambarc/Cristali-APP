@@ -12,7 +12,7 @@ export default {
     };
   },
 
-  renderMany(acesso: Acesso[]) {
-    return acesso.map(acesso => this.render(acesso));
+  renderMany(acessos: Acesso[]) {
+    return acessos.map(acesso => this.render(acesso));
   }
 }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import Item from "./Item";
 import Client from "./Client";
 
@@ -18,7 +18,7 @@ export default class Order {
     code: string;
 
     @Column()
-    timestamp: string;
+    timestamp: Date;
 
     @Column()
     totalprice: string;
@@ -27,12 +27,16 @@ export default class Order {
     notes: string;
 
     @Column()
-    conditon: number;
+    condition: number;
 
     @ManyToOne(() => Client, client => client.orders)
+    @JoinColumn({ name: 'clientId' })
     client: Client;
-
-    @OneToMany(() => Item, item => item.order)
+    
+    @OneToMany(() => Item, item => item.order,{
+        cascade: ['insert', 'update']
+    })
+    @JoinColumn({ name: 'orderId' })
     items: Item[];
 
 }

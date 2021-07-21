@@ -13,4 +13,42 @@ export default {
 
     return response.json(itemView.renderMany(items));
   },
+
+  async create(request: Request, response: Response){
+    try{
+
+      const {
+        itemname,
+        price,
+        quantity
+      } = request.body;
+
+      const itemsRepository = getRepository(Item);
+
+      const data = {
+        itemname,
+        price,
+        quantity
+      }
+
+      const schema = Yup.object().shape({
+        itemname: Yup.string().notRequired(),
+        price: Yup.string().required(),
+        quantity: Yup.number().required(),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      const item = itemsRepository.create(data);
+
+      await itemsRepository.save(item);
+
+      return response.status(201);
+
+    }catch(err){
+      return response.status(400).json({ "erro":err });
+    }
+  }
 }

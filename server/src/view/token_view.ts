@@ -10,7 +10,7 @@ export default {
     };
   },
 
-  renderMany(token: Token[]) {
-    return token.map(token => this.render(token));
+  renderMany(tokens: Token[]) {
+    return tokens.map(token => this.render(token));
   }
 }

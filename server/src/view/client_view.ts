@@ -13,7 +13,7 @@ export default {
     };
   },
 
-  renderMany(client: Client[]) {
-    return client.map(client => this.render(client));
+  renderMany(clients: Client[]) {
+    return clients.map(client => this.render(client));
   }
 };

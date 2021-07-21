@@ -16,14 +16,21 @@ export default {
   },
 
   async show(request: Request, response: Response) {
-    const { id } = request.params;
+    try{
+      const { id } = request.params;
 
-    const clientsRepository = getRepository(Client);
+      const clientsRepository = getRepository(Client);
 
-    const client = await clientsRepository.findOneOrFail(id, {
-      relations: ['orders']
-    });
-
-    return response.json(clientView.render(client));
-  },
+    
+      const client = await clientsRepository.findOneOrFail(id, {
+        relations: ['orders']
+      }).then(() => {
+        return response.json(clientView.render(client));
+      }).catch(err => {
+        return response.status(404).json({"erro": err});
+      });
+    }catch(err){
+      return response.status(400).json({"erro": err});
+    }
+  }
 }
