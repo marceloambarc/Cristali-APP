@@ -17,7 +17,7 @@ export default {
     };
   },
   
-  renderMany(order: Order[]){
-    return order.map(order => this.render(order));
+  renderMany(orders: Order[]){
+    return orders.map(order => this.render(order));
   }
 }

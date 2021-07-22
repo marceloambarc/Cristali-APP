@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import tokenView from '../view/token_view';
 import * as Yup from 'yup';
 
 import Token from "../models/Token";
+import tokenView from '../view/token_view';
 
 export default {
   async index(request: Request, response: Response) {

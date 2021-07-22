@@ -4,8 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Header } from "../../components/Header";
 import { Divider } from "../../components/Divider";
-import { CristaliList } from "../../components/CristaliList";
-import { OrderProps } from "../../components/Order";
+import { CristaliClientList } from "../../components/CristaliClientList";
+import { ClientProps } from "../../components/Client";
 
 import { CristaliInput } from "../../components/CristaliInput";
 import { CristaliButton } from "../../components/CristaliButton";
@@ -14,7 +14,7 @@ import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
 export function Client(){
-  const [searchNumber, setSearchNumber] = useState('0');
+  const [searchNumber, setSearchNumber] = useState(0);
   const [searchName, setSearchName] = useState('');
   const [searchTelephone, setSearchTelephone] = useState('');
   const [searchEmail, setSearchEmail] = useState('');
@@ -32,12 +32,12 @@ export function Client(){
     }
   },[searchName]);
 
-  function handleOrderSelect(orderSelect: OrderProps){
-    setSearchNumber(orderSelect.number);
-    setSearchName(orderSelect.client);
-    setSearchTelephone(orderSelect.telephone);
-    setSearchEmail(orderSelect.email);
-    setSearchNotes(orderSelect.notes);
+  function handleClientSelect(clientSelect: ClientProps){
+    setSearchNumber(clientSelect.id);
+    setSearchName(clientSelect.nomefinalcli);
+    setSearchTelephone(clientSelect.phone);
+    setSearchEmail(clientSelect.email);
+    setSearchNotes(clientSelect.notes);
   }
 
   function Validate(){
@@ -76,8 +76,8 @@ export function Client(){
       <Divider />
 
       <View style={styles.clientList}>
-        <CristaliList
-          handleOrderSelect={handleOrderSelect}
+        <CristaliClientList
+          handleClientSelect={handleClientSelect}
         />
       </View>
 

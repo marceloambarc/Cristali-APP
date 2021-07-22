@@ -9,11 +9,12 @@ import { theme } from "../../global/styles";
 
 import { CristaliInputMoney } from "../../components/CristaliInputMoney";
 import { CristaliInput } from "../../components/CristaliInput";
-import { CristaliList } from "../../components/CristaliList";
+import { CristaliOrderList } from "../../components/CristaliOrderList";
 import { OrderProps } from "../../components/Order";
 import { Header } from "../../components/Header";
 
-import { DATA } from "../../utils/data"; 
+import { DATA } from "../../utils/data";
+import { api } from "../../services/api";
 
 export function History(){
   const { user } = useAuth();
@@ -41,7 +42,12 @@ export function History(){
     setFirstDate(event);
   }
 
+  async function getHistory(){
+    api.get(`/order/${user.id}`)
+  }
+
   useEffect(() => {
+    getHistory();
     setLoading(false);
     setHistoryCount(DATA.length);
     handleSetTotal();
@@ -179,7 +185,7 @@ export function History(){
             </View>
   
             <View style={styles.list}>
-              <CristaliList
+              <CristaliOrderList
                 handleOrderSelect={handleOrderSelect}
               />
             </View>

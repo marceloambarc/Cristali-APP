@@ -16,9 +16,7 @@ export default class Item {
   @Column()
   quantity: number;
 
-  @ManyToOne(() => Order, order => order.items,{
-    cascade: true,
-  })
+  @ManyToOne(() => Order, order => order.items)
   @JoinColumn({ name: 'orderId' })
   order: Order;
 

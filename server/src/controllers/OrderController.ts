@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
+import { Request, RequestParamHandler, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import Order from "../models/Order";
 import orderView from '../view/order_view';
+
+import Client from '../models/Client';
+import clientView from '../view/client_view';
+import ClientController from './ClientController';
 
 export default {
   async index(request: Request, response: Response) {
@@ -21,18 +25,18 @@ export default {
   },
 
   async show(request: Request, response: Response) {
-      const { id } = request.params;
-      const searchId = parseInt(id);
+    const { id } = request.params;
+    const searchId = parseInt(id);
   
-      const ordersRepository = getRepository(Order);
+    const ordersRepository = getRepository(Order);
   
-      const orders = await ordersRepository.find({where: { userId: searchId }, relations: ['items']});
+    const orders = await ordersRepository.find({where: { userId: searchId }, relations: ['items']});
   
-      if(orders.length === 0){
-        return response.status(404).json({'Vazio': 'Nenhuma ordem com este Parametro.'});
-      }else{
-        return response.json(orderView.renderMany(orders));
-      }
+    if(orders.length === 0){
+      return response.status(404).json({'Vazio': 'Nenhuma ordem com este Parametro.'});
+    }else{
+      return response.json(orderView.renderMany(orders));
+    }
   },
 
   async delete(request: Request, response: Response) {
@@ -72,51 +76,81 @@ export default {
       } = request.body;
 
       const ordersRepository = getRepository(Order);
-        
-      const data = {
-        userId,
-        token,
-        code,
-        timestamp: new Date(),
-        totalprice,
-        notes,
-        condition: 0,
-        client,
-        items
-      };
-  
-      const schema = Yup.object().shape({
-        userId: Yup.number().required(),
-        token: Yup.string().required(),
-        code: Yup.string().required(),
-        timestamp: Yup.date().default(() => new Date()),
-        totalprice: Yup.string().required(),
-        notes: Yup.string().required(),
-        condition: Yup.number().default(() => 0),
-        client: Yup.object().shape({
-            nomefinalcli: Yup.string().required(),
-            phone: Yup.string().notRequired(),
-            email: Yup.string().notRequired(),
-            notes: Yup.string().notRequired()
-          }),
-        items: Yup.array(
-          Yup.object().shape({
-            itemname: Yup.string().notRequired(),
-            price: Yup.string().required(),
-            quantity: Yup.number().required(),
-          })
-        )
+      
+      const clientsRepository = getRepository(Client);
+
+      const existClient = await clientsRepository.findOne({
+        where: {
+          id: client.cliId
+        }
       });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+      console.log(existClient);
 
-      const orderRepository = ordersRepository.create(data);
-
-      await ordersRepository.save(orderRepository);
+      if(existClient != undefined){
+        const cliId = existClient.id
+        const data = {
+          userId,
+          token,
+          code,
+          timestamp: new Date(),
+          totalprice,
+          notes,
+          condition: 0,
+          cliId,
+          items
+        };
     
-      return response.status(201).json(orderRepository);
+        const schema = Yup.object().shape({
+          userId: Yup.number().required(),
+          token: Yup.string().required(),
+          code: Yup.string().required(),
+          timestamp: Yup.date().default(() => new Date()),
+          totalprice: Yup.string().required(),
+          notes: Yup.string().required(),
+          condition: Yup.number().default(() => 0),
+          cliId: Yup.number().required(),
+          items: Yup.array(
+            Yup.object().shape({
+              itemname: Yup.string().notRequired(),
+              price: Yup.string().required(),
+              quantity: Yup.number().required(),
+            })
+          )
+        });
+  
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+  
+        const orderRepository = ordersRepository.create(data);
+  
+        await ordersRepository.save(orderRepository);
+      
+        return response.status(201).json(orderRepository.id);
+      }else{
+        console.log('Início da Criação de um novo Cliente.');
+        const clientData = {
+          nomefinalcli: client.nomefinalcli,
+          phone: client.phone,
+          email: client.email,
+          notes: client.notes,
+          orderId: 'q'
+        }
+        const createClient = await ClientController.create(request, response, clientData);
+        
+        if(createClient != undefined){
+          if(createClient.statusCode === 201){
+
+            return response.status(201).json(createClient.json);
+
+          }else{
+            return response.status(createClient.statusCode).json(createClient.json);
+          }
+        }else{
+          return response.status(400).json({ "erro": "Deve-se passar os Parâmetros" });
+        }
+      }
     }catch(err){
       return response.status(400).json({ "erro":err });
     }

@@ -6,7 +6,7 @@ import { Header } from "../../components/Header";
 import { CristaliButton } from "../../components/CristaliButton";
 import { CristaliInput } from "../../components/CristaliInput";
 import { Divider } from "../../components/Divider";
-import { CristaliList } from "../../components/CristaliList";
+import { CristaliOrderList } from "../../components/CristaliOrderList";
 import { OrderProps } from "../../components/Order";
 
 import { styles } from "./styles";
@@ -75,7 +75,7 @@ export function SavedSale(){
       <Divider />
 
       <View style={styles.list}>
-        <CristaliList
+        <CristaliOrderList
           handleOrderSelect={handleOrderSelect}
         />
       </View>

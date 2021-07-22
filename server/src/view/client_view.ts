@@ -1,5 +1,4 @@
 import Client from "../models/Client";
-import orderView from "./order_view";
 
 export default {
   render(client: Client) {
@@ -9,7 +8,7 @@ export default {
       phone: client.phone,
       email: client.email,
       notes: client.notes,
-      orders: orderView.renderMany(client.orders)
+      orderId: client.orderId
     };
   },
 

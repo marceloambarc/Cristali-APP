@@ -19,10 +19,7 @@ export default class Client {
   @Column("nvarchar", { length: 200 })
   notes: string;
 
-  @OneToMany(() => Order, order => order.client,{
-    cascade: ['insert', 'update']
-  })
-  @JoinColumn({ name: 'clientId' })
-  orders: Order[];
+  @Column()
+  orderId: number;
 
 }

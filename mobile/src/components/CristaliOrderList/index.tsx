@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FlatList } from "react-native";
-import { styles } from "../Background/styles";
 
 import { Order, OrderProps } from "../Order";
 
@@ -10,7 +9,7 @@ interface Props {
 
 import { DATA } from "../../utils/data"; 
 
-export function CristaliList({ handleOrderSelect } : Props){
+export function CristaliOrderList({ handleOrderSelect } : Props){
   const [orders, setOrders] = useState<OrderProps[]>([]);
 
   async function fetchOrder(){
