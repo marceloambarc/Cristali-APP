@@ -89,42 +89,23 @@ export function NewSale(){
   }
 
   async function handleSave(){
-    /*list.map(async (item, index) => {
-      const newItem = {
-        id: item.id,
-        title: item.title,
-        value: item.value
+    for (let index = 0; index <= list.length; index++) {
+      if(list[index].title != undefined && list[index].title != ''){
+        alert(`${list[index].title}, ${list[index].value}`);
+      }else{
+        return;
       }
-
-      const storage = await AsyncStorage.getItem(COLLECTION_ITEMS);
-      const items = storage ? JSON.parse(storage) : [];
-
-      await AsyncStorage.setItem(
-        COLLECTION_ITEMS,
-        JSON.stringify([...items, newItem])
-      );
-
-      alert('HW');
-    });*/
-    try {
-      list.forEach(async item => {
-        const newItem = {
-          id: item.id,
-          title: item.title,
-          value: item.value
-        }
-
-        const storage = await AsyncStorage.getItem(COLLECTION_ITEMS);
-        const items = storage ? JSON.parse(storage) : [];
-
-        await AsyncStorage.setItem(
-          COLLECTION_ITEMS,
-          JSON.stringify([...items, newItem])
-        );
-      })
-    }catch(e){
-      alert(e);
+      
     }
+    /*const newItems = {
+      id: uuid.v4(),
+      title: item.title,
+      value: item.value
+    }
+    const response = await AsyncStorage.setItem(COLLECTION_ITEMS, newItems);
+    const storage: ItemProps[] = response ? JSON.parse(response) : [];
+
+    console.log(storage);*/
   }
 
   function handleContinue(){
@@ -322,6 +303,7 @@ export function NewSale(){
                 key={item.id}
                 style={{width: Dimensions.get('window').width *.6}}
               >
+                <Text>{index}, {item.id}</Text>
                 {index <= piece -1
                   ?
                   <View style={styles.listProdutContainer}>

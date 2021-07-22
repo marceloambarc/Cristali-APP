@@ -3,7 +3,6 @@ import { Text, View, KeyboardAvoidingView, Platform, ActivityIndicator } from 'r
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from '../../hooks/auth';
-import uuid from 'react-native-uuid';
 
 import { CristaliButton } from '../../components/CristaliButton';
 import { CristaliInput } from '../../components/CristaliInput';
@@ -38,6 +37,8 @@ export function MoneyScreen(){
   async function loadItems(){
     const response = await AsyncStorage.getItem(COLLECTION_ITEMS);
     const storage: ItemProps[] = response ? JSON.parse(response) : [];
+
+    console.log(storage);
 
     setItems(storage);
     setLoading(false);
@@ -122,6 +123,14 @@ export function MoneyScreen(){
               O valor deve ser acertado posteriormente 
               com o departamento financeiro da Cristali.
             </Text>
+            {
+            items.map(item => {
+              generateId();
+              return (
+                <Text key={generatedId} style={{color: 'black'}}>{item.id}</Text>
+              )
+            })
+          }
           </View>
 
           {
@@ -139,14 +148,6 @@ export function MoneyScreen(){
             <View />
           }
 
-          {
-            items.map(item => {
-              generateId();
-              return (
-                <Text key={generatedId}>{item.title}</Text>
-              )
-            })
-          }
 
           {
             loading?
