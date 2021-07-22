@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, StatusBar, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, Alert, TextInput, ActivityIndicator } from "react-native";
-import { useNavigation, useRoute, StackActions } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from "../../hooks/auth";
+import uuid from 'react-native-uuid';
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles";
 
+import { COLLECTION_ITEMS } from "../../config/storage";
 import { OrderProps } from "../../components/Order";
 
 import { Divider } from "../../components/Divider";
@@ -17,7 +20,7 @@ import { CristaliButton } from "../../components/CristaliButton";
 import { Header } from "../../components/Header";
 import { SearchButton } from "../../components/SearchButton";
 
-interface TodoItem {
+export interface ItemProps {
   id: number;
   title: string;
   value: string;
@@ -56,17 +59,17 @@ export function NewSale(){
     
   },[orderParams]);
 
-  const [list, setList] = useState<TodoItem[]>([{id: 0, value: '', title: ''}]);
+  const [list, setList] = useState<ItemProps[]>([{id: 0, value: '', title: ''}]);
 
-  const handleChange = (value: string, id: TodoItem['id']) => {
+  const handleChange = (value: string, id: ItemProps['id']) => {
     setList(prev => prev.map(item => item.id === id? {...item, value} : item));
   }
 
-  const handleTitleChange = (title: string, id: TodoItem['id']) => {
+  const handleTitleChange = (title: string, id: ItemProps['id']) => {
     setList(prev => prev.map(item => item.id ===id? {...item, title} : item))
   }
 
-  const handleDelete = (id: TodoItem['id'], value: string) => {
+  const handleDelete = (id: ItemProps['id'], value: string) => {
     setList(prev => prev.filter(item => item.id !== id));
     setPiece(prev=> prev-1);
     var price = parseInt(value.replace(/\D/g, ""));
@@ -85,17 +88,57 @@ export function NewSale(){
     }
   }
 
+  async function handleSave(){
+    /*list.map(async (item, index) => {
+      const newItem = {
+        id: item.id,
+        title: item.title,
+        value: item.value
+      }
+
+      const storage = await AsyncStorage.getItem(COLLECTION_ITEMS);
+      const items = storage ? JSON.parse(storage) : [];
+
+      await AsyncStorage.setItem(
+        COLLECTION_ITEMS,
+        JSON.stringify([...items, newItem])
+      );
+
+      alert('HW');
+    });*/
+    try {
+      list.forEach(async item => {
+        const newItem = {
+          id: item.id,
+          title: item.title,
+          value: item.value
+        }
+
+        const storage = await AsyncStorage.getItem(COLLECTION_ITEMS);
+        const items = storage ? JSON.parse(storage) : [];
+
+        await AsyncStorage.setItem(
+          COLLECTION_ITEMS,
+          JSON.stringify([...items, newItem])
+        );
+      })
+    }catch(e){
+      alert(e);
+    }
+  }
+
   function handleContinue(){
     if(piece <= 0){
       alert('Insira um Produto.');
     }else{
+      handleSave();
       navigation.navigate('Checkout',{
         client,
         telephone,
         email,
         notes,
         piece,
-        list,
+        list: list,
         price: sellPrice.toString()
       });
     }

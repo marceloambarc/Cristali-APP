@@ -13,6 +13,7 @@ export default {
       totalprice: order.totalprice,
       notes: order.notes,
       condition: order.condition,
+      clientId: order.cliId,
       items: itemView.renderMany(order.items)
     };
   },

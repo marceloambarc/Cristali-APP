@@ -1,4 +1,4 @@
-import { Request, RequestParamHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
@@ -81,11 +81,9 @@ export default {
 
       const existClient = await clientsRepository.findOne({
         where: {
-          id: client.cliId
+          nomefinalcli: client.nomefinalcli
         }
       });
-
-      console.log(existClient);
 
       if(existClient != undefined){
         const cliId = existClient.id
@@ -127,7 +125,7 @@ export default {
   
         await ordersRepository.save(orderRepository);
       
-        return response.status(201).json(orderRepository.id);
+        return response.status(201).json(orderRepository);
       }else{
         console.log('Início da Criação de um novo Cliente.');
         const clientData = {
@@ -135,14 +133,62 @@ export default {
           phone: client.phone,
           email: client.email,
           notes: client.notes,
-          orderId: 'q'
+          orderId: 1
         }
+
         const createClient = await ClientController.create(request, response, clientData);
         
         if(createClient != undefined){
           if(createClient.statusCode === 201){
+            
+            const clientsRepository = getRepository(Client);
 
-            return response.status(201).json(createClient.json);
+            const existClientCreated = await clientsRepository.findOne({
+              where: {
+                nomefinalcli: client.nomefinalcli
+              }
+            });
+            const responseClientId = existClientCreated?.id;
+
+            const data = {
+              userId,
+              token,
+              code,
+              timestamp: new Date(),
+              totalprice,
+              notes,
+              condition: 0,
+              cliId: responseClientId,
+              items
+            };
+
+            const schema = Yup.object().shape({
+              userId: Yup.number().required(),
+              token: Yup.string().required(),
+              code: Yup.string().required(),
+              timestamp: Yup.date().default(() => new Date()),
+              totalprice: Yup.string().required(),
+              notes: Yup.string().required(),
+              condition: Yup.number().default(() => 0),
+              cliId: Yup.number().required(),
+              items: Yup.array(
+                Yup.object().shape({
+                  itemname: Yup.string().notRequired(),
+                  price: Yup.string().required(),
+                  quantity: Yup.number().required(),
+                })
+              )
+            });
+      
+            await schema.validate(data, {
+              abortEarly: false,
+            });
+      
+            const orderRepository = ordersRepository.create(data);
+      
+            await ordersRepository.save(orderRepository);
+          
+            return response.status(201).json(orderRepository);
 
           }else{
             return response.status(createClient.statusCode).json(createClient.json);

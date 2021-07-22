@@ -47,7 +47,7 @@ export function SignIn(){
             />
         
             {
-              loading? <ActivityIndicator size='large' color={`${theme.colors.primary}`} />
+              loading? <ActivityIndicator style={{marginTop: 100}} size='large' color={`${theme.colors.primary}`} />
               :
               <>
                 <View style={styles.credentials}>

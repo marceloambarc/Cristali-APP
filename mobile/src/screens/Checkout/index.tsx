@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StatusBar, Alert } from 'react-native';
-import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
+import { View, Text, ScrollView, StatusBar } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles';
@@ -12,6 +12,7 @@ import { Divider } from '../../components/Divider';
 import { CristaliButton } from '../../components/CristaliButton';
 import { CheckoutButton } from '../../components/CheckoutButton';
 import { CristaliInputMoney } from '../../components/CristaliInputMoney';
+
 
 export interface CheckoutProps extends OrderProps  {
   piece: string;

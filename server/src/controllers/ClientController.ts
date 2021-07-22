@@ -43,10 +43,33 @@ export default {
         orderId
       } = request.body;
 
-      if(nomefinalcli === undefined){
-        console.log(clientData);
+      const clientsRepository = getRepository(Client);
 
-        const clientsRepository = getRepository(Client);
+      if(nomefinalcli === undefined){
+        if(clientData === undefined){
+          return response.status(400).json({'Erro': 'Parâmetros não enviados.' });
+        }else{
+          const clientsRepository = getRepository(Client);
+
+          const schema = Yup.object().shape({
+            nomefinalcli: Yup.string().required(),
+            phone: Yup.string().nullable(),
+            email: Yup.string().nullable(),
+            notes: Yup.string().nullable(),
+            orderId: Yup.number().required()
+          });
+
+          await schema.validate(clientData, {
+            abortEarly: false,
+          });
+
+          const clientRepository = clientsRepository.create(clientData);
+
+          await clientsRepository.save(clientRepository);
+
+          return response.status(201).json();
+        }
+      }else{
   
         const existClient = await clientsRepository.findOne({
           where: [
@@ -83,9 +106,6 @@ export default {
         }else{
           return response.status(409).json({'Err': 'Cliente já cadastrada.'});
         }
-
-      }else{
-        
       }
     }catch(err){
       return response.status(400).json({'Erro': err});
