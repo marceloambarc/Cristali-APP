@@ -16,7 +16,7 @@ routes.get('/client/:id', ClientController.show);
 routes.get('/order', OrderController.index);
 routes.get('/order/:id', OrderController.show);
 routes.post('/order', OrderController.create);
-routes.put('/order', OrderController.editCondition);
+routes.put('/order/:code', OrderController.editCondition);
 routes.delete('/order', OrderController.delete);
 
 routes.get('/acesso', AcessoController.index);

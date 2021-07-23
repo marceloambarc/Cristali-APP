@@ -48,7 +48,8 @@ export default {
   },
 
   async editCondition(request: Request, response: Response){
-    const { code, condition } = request.body;
+    const { code } = request.params;
+    const { condition } = request.body;
     const setCondition = parseInt(condition);
 
     const ordersRepository = getRepository(Order);
@@ -86,6 +87,7 @@ export default {
       });
 
       if(existClient != undefined){
+        //CLIENTE EXISTE E CRIA NOVA ORDEM
         const cliId = existClient.id
         const data = {
           userId,
@@ -104,15 +106,15 @@ export default {
           token: Yup.string().required(),
           code: Yup.string().required(),
           timestamp: Yup.date().default(() => new Date()),
-          totalprice: Yup.string().required(),
-          notes: Yup.string().required(),
+          totalprice: Yup.string().nullable(),
+          notes: Yup.string().nullable(),
           condition: Yup.number().default(() => 0),
-          cliId: Yup.number().required(),
+          cliId: Yup.number().nullable(),
           items: Yup.array(
             Yup.object().shape({
-              itemname: Yup.string().notRequired(),
-              price: Yup.string().required(),
-              quantity: Yup.number().required(),
+              itemname: Yup.string().nullable(),
+              price: Yup.string().nullable(),
+              code: Yup.string().nullable(),
             })
           )
         });
@@ -127,7 +129,7 @@ export default {
       
         return response.status(201).json(orderRepository);
       }else{
-        console.log('Início da Criação de um novo Cliente.');
+        //CRIAR NOVO CLIENTE E SALVAR ORDEM
         const clientData = {
           nomefinalcli: client.nomefinalcli,
           phone: client.phone,

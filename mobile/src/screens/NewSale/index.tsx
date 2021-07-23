@@ -22,8 +22,9 @@ import { SearchButton } from "../../components/SearchButton";
 
 export interface ItemProps {
   id: number;
-  title: string;
-  value: string;
+  code: string;
+  itemname: string;
+  price: string;
 }
 
 export let itemCounter = 1;
@@ -47,7 +48,16 @@ export function NewSale(){
 
   const [totalPrice, setTotalPrice] = useState('');
 
+  async function removeStorage(){
+    try {
+      await AsyncStorage.removeItem(COLLECTION_ITEMS);
+    }catch(err){
+      alert(err);
+    }
+  }
+
   useEffect(() => {
+    removeStorage()
     if(orderParams){
       setClient(orderParams.client);
       setTelephone(orderParams.telephone);
@@ -59,53 +69,55 @@ export function NewSale(){
     
   },[orderParams]);
 
-  const [list, setList] = useState<ItemProps[]>([{id: 0, value: '', title: ''}]);
+  const [list, setList] = useState<ItemProps[]>([{id: 0, code: '', price: '', itemname: ''}]);
 
-  const handleChange = (value: string, id: ItemProps['id']) => {
-    setList(prev => prev.map(item => item.id === id? {...item, value} : item));
+  const handleChange = (price: string, id: ItemProps['id']) => {
+    setList(prev => prev.map(item => item.id === id? {...item, price} : item));
   }
 
-  const handleTitleChange = (title: string, id: ItemProps['id']) => {
-    setList(prev => prev.map(item => item.id ===id? {...item, title} : item))
+  const handleTitleChange = (itemname: string, id: ItemProps['id']) => {
+    setList(prev => prev.map(item => item.id ===id? {...item, itemname} : item))
   }
 
-  const handleDelete = (id: ItemProps['id'], value: string) => {
+  const handleDelete = (id: ItemProps['id'], price: string) => {
     setList(prev => prev.filter(item => item.id !== id));
     setPiece(prev=> prev-1);
-    var price = parseInt(value.replace(/\D/g, ""));
-    setSellPrice(price - sellPrice);
+    var value = parseInt(price.replace(/\D/g, ""));
+    setSellPrice(value - sellPrice);
   }
 
-  const handleAdd = (index: number, value: string) => {
-    const newItem = {id: itemCounter ++, value: '', title: ''}
-    if(value === ''){
+  const handleAdd = (index: number, price: string) => {
+    const newItem = {id: itemCounter ++, code: '', price: '', itemname: ''}
+    if(price === ''){
       alert('Insira o Valor.');
     }else{
-      var price = parseInt(value.replace(/\D/g, ""));
+      var value = parseInt(price.replace(/\D/g, ""));
       setList(prev => [...prev.slice(0, index+1), newItem, ...prev.slice(index + 1)]);
       setPiece(prev => prev+1);
-      setSellPrice(price + sellPrice);
+      setSellPrice(value + sellPrice);
     }
   }
 
   async function handleSave(){
     for (let index = 0; index <= list.length; index++) {
-      if(list[index].title != undefined && list[index].title != ''){
-        alert(`${list[index].title}, ${list[index].value}`);
+      if(list[index].itemname != undefined && list[index].itemname != ''){
+        const newItem = {
+          code: uuid.v4(),
+          itemname: list[index].itemname,
+          price: list[index].price
+        };
+
+        const storage = await AsyncStorage.getItem(COLLECTION_ITEMS);
+        const items = storage ? JSON.parse(storage) : [];
+
+        await AsyncStorage.setItem(
+          COLLECTION_ITEMS,
+          JSON.stringify([...items, newItem])
+        );
       }else{
         return;
       }
-      
     }
-    /*const newItems = {
-      id: uuid.v4(),
-      title: item.title,
-      value: item.value
-    }
-    const response = await AsyncStorage.setItem(COLLECTION_ITEMS, newItems);
-    const storage: ItemProps[] = response ? JSON.parse(response) : [];
-
-    console.log(storage);*/
   }
 
   function handleContinue(){
@@ -311,7 +323,7 @@ export function NewSale(){
                       <CristaliInputMoney
                       type={'money'}
                       key={item.id}
-                      value={item.value}
+                      value={item.price}
                       productInsert
                       editable={false}
                       autoCorrect={false}
@@ -319,7 +331,7 @@ export function NewSale(){
                     </View>
                     <View style={styles.productTitleContainer}>
                       <CristaliInput 
-                        value={item.title}
+                        value={item.itemname}
                         onChangeText={e => handleTitleChange(e, item.id)}
                         placeholder="Produto..."
                         clientInput
@@ -331,7 +343,7 @@ export function NewSale(){
                   <CristaliInputMoney
                     type={'money'}
                     key={item.id}
-                    value={item.value}
+                    value={item.price}
                     onChangeText={e => handleChange(e, item.id)}
                     placeholder='Insira o Valor do Produto'
                     keyboardType='numeric'
@@ -344,7 +356,7 @@ export function NewSale(){
               :
                 <TouchableOpacity
                   style={[styles.listButton, {backgroundColor: theme.colors.Success}]}
-                  onPress={() => handleAdd(index, item.value)}
+                  onPress={() => handleAdd(index, item.price)}
                 >
                   <AntDesign name="plus" size={24} color="white" />
                 </TouchableOpacity>
@@ -352,7 +364,7 @@ export function NewSale(){
               {list.length > 1 && (
                 <TouchableOpacity
                   style={[styles.listButton, {backgroundColor: theme.colors.Cancel}]}
-                  onPress={() => handleDelete(item.id, item.value)}
+                  onPress={() => handleDelete(item.id, item.price)}
                 >
                   <AntDesign name="minus" size={24} color="black" />
                 </TouchableOpacity>

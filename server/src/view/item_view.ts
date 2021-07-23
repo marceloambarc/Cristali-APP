@@ -6,7 +6,7 @@ export default {
       id: item.id,
       itemname: item.itemname,
       price: item.price,
-      quantity: item.quantity
+      code: item.code
     };
   },
 

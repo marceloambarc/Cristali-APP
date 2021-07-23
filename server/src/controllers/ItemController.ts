@@ -20,7 +20,7 @@ export default {
       const {
         itemname,
         price,
-        quantity
+        code,
       } = request.body;
 
       const itemsRepository = getRepository(Item);
@@ -28,13 +28,13 @@ export default {
       const data = {
         itemname,
         price,
-        quantity
+        code
       }
 
       const schema = Yup.object().shape({
         itemname: Yup.string().notRequired(),
         price: Yup.string().required(),
-        quantity: Yup.number().required(),
+        code: Yup.string().required()
       });
 
       await schema.validate(data, {

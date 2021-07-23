@@ -14,7 +14,7 @@ export default class Item {
   price: string;
 
   @Column()
-  quantity: number;
+  code: string;
 
   @ManyToOne(() => Order, order => order.items)
   @JoinColumn({ name: 'orderId' })
